@@ -1,0 +1,7 @@
+{
+  "name": "LunchKeeper",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
