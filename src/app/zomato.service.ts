@@ -41,4 +41,22 @@ export class ZomatoService {
       map(this.extractData),
       catchError(this.handleError));
   }
+
+  getRestaurantInfo(id: number): Observable<any> {
+    const url = `${apiUrl}/restaurant?res_id=${id}`;
+    return this.http.get(url, httpOptions).pipe(
+      map(this.extractData),
+      catchError(this.handleError));
+  }
+
+  getDailyMenu(id: number): Observable<any> {
+    const url = `${apiUrl}/dailymenu?res_id=${id}`;
+    return this.http.get(url, httpOptions).pipe(
+      map(this.extractData),
+      catchError(error => {
+        if (error.status == 400) return of(null);
+        return this.handleError(error);
+      })
+    );
+  }
 }

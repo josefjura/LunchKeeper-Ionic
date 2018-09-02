@@ -11,7 +11,8 @@
   </ion-item>
   <ion-list>
     <ion-item *ngFor="let cr of results">
-      <div>{{cr.restaurant.name}}</div>
+      <ion-checkbox [(ngModel)]="cr.isSelected" (click)="subscribe(cr)" ></ion-checkbox>
+      <div>{{cr.name}}</div>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { ZomatoService } from '../zomato.service'
+import { StorageService } from '../storage.service'
 
 @Component({
   selector: 'app-search',
@@ -11,15 +12,28 @@ export class SearchPage implements OnInit {
 
   results: any;
   public searchText: string;
+  selected: Array<number>;
 
-  constructor(public api: ZomatoService, public loadingController: LoadingController) { }
+  constructor(public api: ZomatoService, public storage: StorageService, public loadingController: LoadingController) { }
 
   ngOnInit() {
-    
+    this.storage.getRestaurants().then((list) => {
+      this.selected = list || [];
+    })
   }
 
-  onSearch(event: any){
-    this.results = [];    
+  subscribe(data) {
+    if (!data.isSelected) {
+      this.storage.addRestaurant(data.id);
+    } else {
+      this.storage.removeRestaurant(data.id);
+    }
+
+    data.isSelected = !data.isSelected
+  }
+
+  onSearch(event: any) {
+    this.results = [];
     this.search(this.searchText);
     this.searchText = "";
   }
@@ -31,7 +45,13 @@ export class SearchPage implements OnInit {
     await loading.present();
     await this.api.search(keyword)
       .subscribe(res => {
-        this.results = res.restaurants;
+        this.results = res.restaurants.map((item) => {
+          return {
+            id: item.restaurant.id,
+            name: item.restaurant.name,
+            isSelected: this.selected.some((s) => { return s == item.restaurant.id })
+          };
+        });
         loading.dismiss();
       }, err => {
         console.log(err);
