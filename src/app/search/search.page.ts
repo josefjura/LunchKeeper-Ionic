@@ -32,7 +32,7 @@ export class SearchPage implements OnInit {
     data.isSelected = !data.isSelected
   }
 
-  onSearch(event: any) {
+  onSearch() {
     this.results = [];
     this.search(this.searchText);
     this.searchText = "";
@@ -45,13 +45,7 @@ export class SearchPage implements OnInit {
     await loading.present();
     await this.api.search(keyword)
       .subscribe(res => {
-        this.results = res.restaurants.map((item) => {
-          return {
-            id: item.restaurant.id,
-            name: item.restaurant.name,
-            isSelected: this.selected.some((s) => { return s == item.restaurant.id })
-          };
-        });
+        this.results = res;
         loading.dismiss();
       }, err => {
         console.log(err);

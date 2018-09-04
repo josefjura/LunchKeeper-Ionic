@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import {
+  SearchResult,
+  DailyMenu,
+  Dish,
+  RestaurantInfo,
+  RestaurantDetail
+} from './models'
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json', 'user-key': '7801edd0712e8d74b9947053e48a9f1a' })
@@ -30,33 +37,59 @@ export class ZomatoService {
     return throwError('Something bad happened; please try again later.');
   }
 
-  private extractData(res: Response) {
-    let body = res;
-    return body || {};
-  }
-
-  search(keyword: string): Observable<any> {
+  search(keyword: string): Observable<SearchResult[]> {
     const url = `${apiUrl}/search?entity_id=84&entity_type=city&q=${keyword}`;
     return this.http.get(url, httpOptions).pipe(
-      map(this.extractData),
+      map(this.mapSearchResults),
       catchError(this.handleError));
   }
 
-  getRestaurantInfo(id: number): Observable<any> {
+  private mapSearchResults(input: any): SearchResult[] {
+    return input.restaurants.map((item) => {
+      return {
+        name: item.name,
+        id: item.id
+      };
+    });
+  }
+
+  getRestaurantInfo(id: number): Observable<RestaurantInfo> {
     const url = `${apiUrl}/restaurant?res_id=${id}`;
     return this.http.get(url, httpOptions).pipe(
-      map(this.extractData),
+      map(this.mapRestaurantInfo),
       catchError(this.handleError));
   }
 
-  getDailyMenu(id: number): Observable<any> {
+  private mapRestaurantInfo(input: any): RestaurantInfo {
+    return {
+      name: input.name,
+      id: input.id,
+      thumb: input.thumb
+    };
+  }
+
+  getDailyMenu(id: number): Observable<DailyMenu[]> {
     const url = `${apiUrl}/dailymenu?res_id=${id}`;
     return this.http.get(url, httpOptions).pipe(
-      map(this.extractData),
+      map(this.mapRestaurantDetail),
       catchError(error => {
         if (error.status == 400) return of(null);
         return this.handleError(error);
       })
     );
+  }
+
+  private mapRestaurantDetail(input: any): DailyMenu[] {
+    return input.daily_menus.map((item)=>{
+      return {
+        name : item.daily_menu.name,
+        dishes: item.daily_menu.dishes.map((inner)=>{
+          return {
+            name : inner.dish.name,
+            price : inner.dish.price
+          }
+        })
+      }
+    });
   }
 }

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../storage.service';
 import { ZomatoService } from '../zomato.service'
+import { RestaurantDetail } from '../models';
 
+import { forkJoin } from 'rxjs'
+import { flatMap, map, first } from 'rxjs/operators'
 @Component({
   selector: 'app-restaurants',
   templateUrl: './restaurants.page.html',
@@ -9,7 +12,7 @@ import { ZomatoService } from '../zomato.service'
 })
 export class RestaurantsPage implements OnInit {
 
-  restaurants : any = [];
+  restaurants: any = [];
 
   constructor(private storage: StorageService, private zomato: ZomatoService) { }
 
@@ -21,20 +24,19 @@ export class RestaurantsPage implements OnInit {
 
   async loadRestaurants(list: Array<number>) {
     for (let id of list) {
-      await this.zomato.getRestaurantInfo(id)
-        .subscribe(res => {
-          this.zomato.getDailyMenu(id).subscribe(res2=>{
-            if (res2 && res2.daily_menus){
-              res.menu = res2.daily_menus
-            }
-            console.log(res.menu);
-            this.restaurants.push(res);
-          }, err2=>{
-            console.error(err2);
-          });          
-        }, err => {
-          console.error(err);
+      var user: RestaurantDetail = null;
+
+      await forkJoin(this.zomato.getRestaurantInfo(id), this.zomato.getDailyMenu(id)).pipe(
+        map(([first, second]) => {
+          var result: RestaurantDetail = <RestaurantDetail>first;
+          result.menus = second;
+          return result;
         })
+      ).subscribe(
+        (some) => {
+          this.restaurants.push(some);
+        }
+      )
     }
   }
 

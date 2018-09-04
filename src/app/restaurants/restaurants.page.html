@@ -6,26 +6,15 @@
 
 <ion-content padding>
   <ion-list *ngFor="let res of restaurants">
-    <ion-item>
-      <ion-header>
-          <ion-avatar>
-              <img src={{res.thumb}} />
-            </ion-avatar>
-            <ion-label>
-              <p>{{res.name}}</p>
-            </ion-label>
-      </ion-header>
-      <ion-card>
-        <ion-list *ngFor="let menu of res.menu">
-          <ion-item>
-            <h3>{{menu.daily_menu.name}}</h3>        
-            <p *ngFor="let dish of menu.daily_menu.dishes">
-              {{dish.dish.name}}
-            </p>
-          </ion-item>
-        </ion-list>
-      </ion-card>
-    </ion-item>
+    <ion-list-header class="restaurantItem">
+      {{res.name}}
+    </ion-list-header>
+    <ion-item-group *ngFor="let menu of res.menus">
+      <ion-item-divider *ngIf="menu.name">{{menu.name}}</ion-item-divider>
+      <ion-item class="dishItem" *ngFor="let dish of menu.dishes">
+        {{dish.name}}<span item-end>{{dish.price}}</span>
+      </ion-item>
+    </ion-item-group>
   </ion-list>
 
 </ion-content>
