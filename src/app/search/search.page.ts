@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { ZomatoService } from '../zomato.service'
 import { StorageService } from '../storage.service'
+import { RestaurantInfoViewModel } from '../models';
 
 @Component({
   selector: 'app-search',
@@ -10,7 +11,7 @@ import { StorageService } from '../storage.service'
 })
 export class SearchPage implements OnInit {
 
-  results: any;
+  results: RestaurantInfoViewModel[];
   public searchText: string;
   selected: Array<number>;
 
@@ -23,13 +24,12 @@ export class SearchPage implements OnInit {
   }
 
   subscribe(data) {
-    if (!data.isSelected) {
-      this.storage.addRestaurant(data.id);
-    } else {
+    if (data.isSelected) {
+      this.storage.addRestaurant(data.id)
+    }
+    else {
       this.storage.removeRestaurant(data.id);
     }
-
-    data.isSelected = !data.isSelected
   }
 
   onSearch() {
@@ -45,7 +45,14 @@ export class SearchPage implements OnInit {
     await loading.present();
     await this.api.search(keyword)
       .subscribe(res => {
-        this.results = res;
+        this.results = res.restaurants.map((item) => {
+          var vm = new RestaurantInfoViewModel(); 
+          vm.id = item.id;
+          vm.name = item.name;
+          vm.thumb = item.thumb;
+          vm.isSelected = this.selected.some(s => vm.id == s);
+          return vm;
+        });
         loading.dismiss();
       }, err => {
         console.log(err);

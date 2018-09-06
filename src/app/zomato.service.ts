@@ -37,20 +37,24 @@ export class ZomatoService {
     return throwError('Something bad happened; please try again later.');
   }
 
-  search(keyword: string): Observable<SearchResult[]> {
+  search(keyword: string): Observable<SearchResult> {
     const url = `${apiUrl}/search?entity_id=84&entity_type=city&q=${keyword}`;
     return this.http.get(url, httpOptions).pipe(
       map(this.mapSearchResults),
       catchError(this.handleError));
   }
 
-  private mapSearchResults(input: any): SearchResult[] {
-    return input.restaurants.map((item) => {
+  private mapSearchResults(input: any): SearchResult {
+    var results = input.restaurants.map((item) => {
       return {
-        name: item.name,
-        id: item.id
+        name: item.restaurant.name,
+        id: item.restaurant.id
       };
     });
+
+    return {
+      restaurants : results
+    }
   }
 
   getRestaurantInfo(id: number): Observable<RestaurantInfo> {

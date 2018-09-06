@@ -12,7 +12,7 @@
     <ion-item-group *ngFor="let menu of res.menus">
       <ion-item-divider *ngIf="menu.name">{{menu.name}}</ion-item-divider>
       <ion-item class="dishItem" *ngFor="let dish of menu.dishes">
-        {{dish.name}}<span item-end>{{dish.price}}</span>
+        <span>{{dish.name}}</span><span item-end>{{dish.price}}</span>
       </ion-item>
     </ion-item-group>
   </ion-list>
