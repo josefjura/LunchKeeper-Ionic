@@ -8,10 +8,11 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngFor="let res of restaurants">
+  <ion-list *ngFor="let res of restaurants">    
     <ion-list-header class="restaurantItem">
-      {{res.name}}
+      {{res.name}}<img class="headerIcon" src={{res.thumb}} />
     </ion-list-header>
+    <!-- <ion-item *ngIf="res.isEmpty()">Tato restaurace nemá zveřejněné menu</ion-item> -->
     <ion-item-group *ngFor="let menu of res.menus">
       <ion-item-divider *ngIf="menu.name">{{menu.name}}</ion-item-divider>
       <ion-item class="dishItem" *ngFor="let dish of menu.dishes">
@@ -19,5 +20,4 @@
       </ion-item>
     </ion-item-group>
   </ion-list>
-
 </ion-content>

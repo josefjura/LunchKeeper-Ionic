@@ -12,13 +12,13 @@ import { flatMap, map, first } from 'rxjs/operators'
 })
 export class RestaurantsPage implements OnInit {
 
-  restaurants: any = [];
+  restaurants: RestaurantDetail[] = [];
 
   constructor(private storage: StorageService, private zomato: ZomatoService) { }
 
   ngOnInit() {
     this.storage.getRestaurants().then((list) => {
-      this.loadRestaurants(list);
+      this.loadRestaurants(list || []);
     });
   }
 

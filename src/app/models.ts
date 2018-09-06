@@ -1,5 +1,5 @@
 export class SearchResult {
-    restaurants : RestaurantInfo[]
+    restaurants: RestaurantInfo[]
 }
 
 export class RestaurantInfoViewModel {
@@ -16,14 +16,17 @@ export class RestaurantInfo {
 }
 
 export class RestaurantDetail extends RestaurantInfo {
-    menus: DailyMenu[]
+    menus: DailyMenu[];
+    isEmpty() : boolean {
+        return this.menus == null || this.menus.length == 0;
+    }
 }
 
 export class DailyMenu {
-    dishes : Dish[]
+    dishes: Dish[]
 }
 
 export class Dish {
-    name : string
-    price : string;
+    name: string
+    price: string;
 }
