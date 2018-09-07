@@ -2,6 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RestaurantsPage } from './restaurants.page';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { HttpClientModule } from '@angular/common/http'
 
 describe('RestaurantsPage', () => {
   let component: RestaurantsPage;
@@ -9,10 +11,12 @@ describe('RestaurantsPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RestaurantsPage ],
+      declarations: [RestaurantsPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [NativeStorage],
+      imports: [HttpClientModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

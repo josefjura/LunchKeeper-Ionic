@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import { CacheService } from './cache.service'
 import {
   SearchResult,
   DailyMenu,
@@ -20,7 +21,7 @@ const apiUrl = "https://developers.zomato.com/api/v2.1";
 })
 export class ZomatoService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cache : CacheService) { }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -53,14 +54,21 @@ export class ZomatoService {
     });
 
     return {
-      restaurants : results
+      restaurants: results
     }
   }
 
   getRestaurantInfo(id: number): Observable<RestaurantInfo> {
     const url = `${apiUrl}/restaurant?res_id=${id}`;
+
+    var cached = this.cache.getRestaurant(id);
+
+    if (cached)
+      return of(cached);
+
     return this.http.get(url, httpOptions).pipe(
       map(this.mapRestaurantInfo),
+      tap(x=> this.cache.cacheRestaurant(x)),
       catchError(this.handleError));
   }
 
@@ -74,8 +82,15 @@ export class ZomatoService {
 
   getDailyMenu(id: number): Observable<DailyMenu[]> {
     const url = `${apiUrl}/dailymenu?res_id=${id}`;
+
+    var cached = this.cache.getMenus(id);
+
+    if (cached)
+      return of(cached);
+
     return this.http.get(url, httpOptions).pipe(
       map(this.mapRestaurantDetail),
+      tap(x=> this.cache.cacheMenus(id, x)),
       catchError(error => {
         if (error.status == 400) return of(null);
         return this.handleError(error);
@@ -84,13 +99,13 @@ export class ZomatoService {
   }
 
   private mapRestaurantDetail(input: any): DailyMenu[] {
-    return input.daily_menus.map((item)=>{
+    return input.daily_menus.map((item) => {
       return {
-        name : item.daily_menu.name,
-        dishes: item.daily_menu.dishes.map((inner)=>{
+        name: item.daily_menu.name,
+        dishes: item.daily_menu.dishes.map((inner) => {
           return {
-            name : inner.dish.name,
-            price : inner.dish.price
+            name: inner.dish.name,
+            price: inner.dish.price
           }
         })
       }

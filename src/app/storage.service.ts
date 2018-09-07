@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage'
+import { NativeStorage } from '@ionic-native/native-storage/ngx'
 
 const REST_KEY: string = "REST_LIST";
 
@@ -7,14 +7,18 @@ const REST_KEY: string = "REST_LIST";
   providedIn: 'root'
 })
 export class StorageService {
-  constructor(private storage: Storage) { }
+  constructor(private storage: NativeStorage) { }
 
   getRestaurants(): Promise<Array<number>> {
-    return this.storage.get(REST_KEY);
+    return this.storage.getItem(REST_KEY).catch((err)=>{
+      console.error(err);
+    });
   }
 
   private setRestaurants(restList: Array<number>) {
-    this.storage.set(REST_KEY, restList);
+    this.storage.setItem(REST_KEY, restList).catch((err)=>{
+      console.error(err);
+    });
   }
 
   addRestaurant(int: number) {
@@ -22,7 +26,9 @@ export class StorageService {
       val = val || [];
       val.push(int);
       this.setRestaurants(val);
-    });;
+    }).catch((err)=>{
+      console.error(err);
+    });
   }
 
   removeRestaurant(int: number) {
@@ -34,6 +40,8 @@ export class StorageService {
         val.splice(index, 1);
       }
       this.setRestaurants(val);
-    });;
+    }).catch((err)=>{
+      console.error(err);
+    });
   }
 }
