@@ -38,8 +38,8 @@ export class ZomatoService {
     return throwError('Something bad happened; please try again later.');
   }
 
-  search(keyword: string): Observable<SearchResult> {
-    const url = `${apiUrl}/search?entity_id=84&entity_type=city&q=${keyword}`;
+  search(cityId: number, keyword: string): Observable<SearchResult> {
+    const url = `${apiUrl}/search?entity_id=${cityId}&entity_type=city&q=${keyword}`;
     return this.http.get(url, httpOptions).pipe(
       map(this.mapSearchResults),
       catchError(this.handleError));

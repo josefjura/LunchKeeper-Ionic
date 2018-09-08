@@ -43,7 +43,7 @@ export class SearchPage implements OnInit {
       message: 'Loading'
     });
     await loading.present();
-    await this.api.search(keyword)
+    await this.api.search(84, keyword)
       .subscribe(res => {
         this.results = res.restaurants.map((item) => {
           var vm = new RestaurantInfoViewModel(); 

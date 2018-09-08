@@ -30,3 +30,7 @@ export class Dish {
     name: string
     price: string;
 }
+
+export class Configuration {
+    cityId: number;
+}
