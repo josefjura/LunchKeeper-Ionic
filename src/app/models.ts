@@ -17,7 +17,7 @@ export class RestaurantInfo {
 
 export class RestaurantDetail extends RestaurantInfo {
     menus: DailyMenu[];
-    isEmpty() : boolean {
+    public isEmpty() : boolean {
         return this.menus == null || this.menus.length == 0;
     }
 }

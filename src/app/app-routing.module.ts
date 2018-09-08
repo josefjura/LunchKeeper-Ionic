@@ -8,7 +8,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'search', loadChildren: './search/search.module#SearchPageModule' },
-  { path: 'restaurants', loadChildren: './restaurants/restaurants.module#RestaurantsPageModule' }
+  { path: 'restaurants', loadChildren: './restaurants/restaurants.module#RestaurantsPageModule' },  { path: 'about', loadChildren: './about/about.module#AboutPageModule' }
+
 
 ];
 

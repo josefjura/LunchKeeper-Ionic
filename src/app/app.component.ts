@@ -19,6 +19,11 @@ export class AppComponent {
       title: 'Search',
       url: '/search',
       icon: 'search'
+    },
+    {
+      title: 'About',
+      url: '/about',
+      icon: 'information'
     }
   ];
 
