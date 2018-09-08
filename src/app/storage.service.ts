@@ -34,8 +34,7 @@ export class StorageService {
   removeRestaurant(int: number) {
     this.getRestaurants().then((val) => {
       val = val || [];
-      console.log(val)
-      var index = val.indexOf(5);
+      var index = val.indexOf(int);
       if (index > -1) {
         val.splice(index, 1);
       }

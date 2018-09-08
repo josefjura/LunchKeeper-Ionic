@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { NativeStorage } from '@ionic-native/native-storage/ngx'
 
-import {CacheService} from './cache.service'
+import { CacheService } from './cache.service'
 
 
 @NgModule({
@@ -29,7 +29,7 @@ import {CacheService} from './cache.service'
     StatusBar,
     SplashScreen,
     NativeStorage,
-    CacheService,    
+    CacheService,
     AppVersion,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

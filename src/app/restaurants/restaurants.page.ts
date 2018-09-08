@@ -25,7 +25,6 @@ export class RestaurantsPage implements OnInit {
   async loadRestaurants(list: Array<number>) {
     for (let id of list) {
       var user: RestaurantDetail = null;
-
       await forkJoin(this.zomato.getRestaurantInfo(id), this.zomato.getDailyMenu(id)).pipe(
         map(([first, second]) => {
           var result: RestaurantDetail = <RestaurantDetail>first;
