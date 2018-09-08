@@ -10,7 +10,7 @@
 <ion-content padding>
   <ion-item>
     <ion-input [(ngModel)]="searchText" placeholder="Search query" item-right type="text"></ion-input>
-    <button ion-button item-left (click)="onSearch($event)">Search</button>
+    <ion-button  item-left (click)="onSearch($event)">Search</ion-button>
   </ion-item>
   <ion-list>
     <ion-item *ngFor="let cr of results">
