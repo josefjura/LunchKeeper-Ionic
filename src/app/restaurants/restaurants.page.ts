@@ -16,6 +16,16 @@ export class RestaurantsPage implements OnInit {
 
   constructor(private storage: StorageService, private zomato: ZomatoService) { }
 
+  public isEmpty(){
+    return this.restaurants.length == 0;
+  }
+
+  public isRestauantEmpty(stuff: RestaurantDetail){
+    let some = stuff.menus.length == 0;
+    console.log(some);
+    return some;
+  }
+
   ngOnInit() {
     this.storage.getRestaurants().then((list) => {
       this.loadRestaurants(list || []);

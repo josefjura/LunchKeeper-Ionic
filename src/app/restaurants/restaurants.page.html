@@ -8,15 +8,17 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list *ngFor="let res of restaurants">    
+  <ion-item *ngIf="isEmpty()">You have no restaurants selected, choose some in Search page</ion-item>
+  <ion-list *ngFor="let res of restaurants">
     <ion-list-header class="restaurantItem">
       {{res.name}}<img class="headerIcon" src={{res.thumb}} />
     </ion-list-header>
-    <!-- <ion-item *ngIf="res.isEmpty()">Tato restaurace nemá zveřejněné menu</ion-item> -->
+    <ion-item *ngIf="isRestauantEmpty(res)">This restaurant has no daily menu published</ion-item>
     <ion-item-group *ngFor="let menu of res.menus">
       <ion-item-divider *ngIf="menu.name">{{menu.name}}</ion-item-divider>
       <ion-item class="dishItem" *ngFor="let dish of menu.dishes">
-        <ion-label text-wrap>{{dish.name}}</ion-label><ion-text slot="end">{{dish.price}}</ion-text>
+        <ion-label text-wrap>{{dish.name}}</ion-label>
+        <ion-text slot="end">{{dish.price}}</ion-text>
       </ion-item>
     </ion-item-group>
   </ion-list>
