@@ -8,8 +8,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // server.js
-const SearchController_1 = require("./controllers/SearchController");
-const RestaurantController_1 = require("./controllers/RestaurantController");
+const ZomatoController_1 = require("./controllers/ZomatoController");
+const CustomController_1 = require("./controllers/CustomController");
+const UtilityRepository_1 = require("./controllers/UtilityRepository");
+const db = __importStar(require("./db"));
 // BASE SETUP
 // =============================================================================
 // call the packages we need
@@ -20,7 +22,7 @@ const body_parser_1 = require("body-parser");
 // this will let us get the data from a POST
 app.use(body_parser_1.urlencoded({ extended: true }));
 app.use(body_parser_1.json());
-var port = process.env.PORT || 8080; // set our port
+var port = process.env.PORT || 3000; // set our port
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express_1.Router(); // get an instance of the express Router
@@ -28,9 +30,13 @@ var router = express_1.Router(); // get an instance of the express Router
 router.get('/', (req, res) => {
     res.status(200).json({ message: "This is LunchKeeper API" });
 });
-router.get('/search/:city', SearchController_1.doSearch);
-router.get('/restaurant/:id', RestaurantController_1.getRestaurantDetail);
-router.get('/restaurant/:id/dailymenu', RestaurantController_1.getDailyMenu);
+router.get('/zomato/search/:city', ZomatoController_1.doSearch);
+router.get('/zomato/:id', ZomatoController_1.getRestaurantDetail);
+router.get('/zomato/:id/dailymenu', ZomatoController_1.getDailyMenu);
+router.get('/custom/all', CustomController_1.getAll);
+router.get('/custom/random', CustomController_1.createRandom);
+router.get('/ping/db', UtilityRepository_1.pingDb);
+db.init();
 // more routes for our API will happen here
 // REGISTER OUR ROUTES -----------
 // all of our routes will be prefixed with /api

@@ -1,0 +1,18 @@
+version: '2.1'
+
+services:
+  lunchkeeper:
+    image: lunchkeeper-api
+    container_name: lunchkeeper-api 
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    depends_on: 
+      - mongo
+  mongo:
+    container_name: lunchkeeper-api-mongo
+    image: mongo
+    ports: 
+      - "27017:27017"

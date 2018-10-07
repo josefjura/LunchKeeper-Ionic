@@ -1,6 +1,9 @@
 // server.js
-import { doSearch } from './controllers/SearchController'
-import { getDailyMenu, getRestaurantDetail } from './controllers/RestaurantController'
+import { doSearch, getDailyMenu, getRestaurantDetail } from './controllers/ZomatoController'
+import { getAll, createRandom } from './controllers/CustomController'
+import { pingDb } from './controllers/UtilityRepository'
+import * as db from './db'
+import {IScraper} from './scrapers/common'
 
 // BASE SETUP
 // =============================================================================
@@ -16,7 +19,7 @@ import { urlencoded, json } from 'body-parser';
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
-var port = process.env.PORT || 8080;        // set our port
+var port = process.env.PORT || 3000        // set our port
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -27,9 +30,15 @@ router.get('/', (req, res) => {
     res.status(200).json({ message: "This is LunchKeeper API" });
 });
 
-router.get('/search/:city', doSearch);
-router.get('/restaurant/:id', getRestaurantDetail);
-router.get('/restaurant/:id/dailymenu', getDailyMenu);
+router.get('/zomato/search/:city', doSearch);
+router.get('/zomato/:id', getRestaurantDetail);
+router.get('/zomato/:id/dailymenu', getDailyMenu);
+router.get('/custom/all', getAll);
+router.get('/custom/random', createRandom);
+router.get('/ping/db', pingDb);
+
+db.init();
+
 
 
 // more routes for our API will happen here

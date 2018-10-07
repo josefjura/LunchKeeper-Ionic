@@ -1,0 +1,1 @@
+{"version":3,"file":"LokalBlokScraper.js","sourceRoot":"","sources":["../../src/scrapers/LokalBlokScraper.ts"],"names":[],"mappings":";;;;;;;;AACA,qCAAmC;AAGnC,IAAM,gBAAgB,GAAtB,MAAM,gBAAgB;IADtB;QAEI,SAAI,GAAW,WAAW,CAAC;QAE3B,WAAM,GAAgC,CAAC,IAAI,EAAE,EAAE;YAG3C,OAAO,IAAI,SAAS,EAAE,CAAC;QAC3B,CAAC,CAAC;IACN,CAAC;CAAA,CAAA;AARK,gBAAgB;IADrB,iBAAQ,CAAC,QAAQ;GACZ,gBAAgB,CAQrB"}

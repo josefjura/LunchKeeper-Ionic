@@ -1,1 +1,0 @@
-{"version":3,"file":"SearchTransformations.js","sourceRoot":"","sources":["../../src/transformations/SearchTransformations.ts"],"names":[],"mappings":";;AAGA,IAAI,cAAc,GAAmB,CAAC,GAAY,EAAE,GAAa,EAAE,IAAkB,EAAO,EAAE;IAE1F,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC;QACjB,CAAC,EAAE,GAAG,CAAC,KAAK,CAAC,WAAW;KAC3B,CAAC,CAAC;IAEH,IAAI,EAAE,CAAC;AACX,CAAC,CAAA;AAED,kBAAe,cAAc,CAAC"}

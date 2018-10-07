@@ -1,1 +1,0 @@
-//# sourceMappingURL=SearchResultTransform.js.map
