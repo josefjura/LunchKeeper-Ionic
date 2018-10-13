@@ -3,7 +3,17 @@ import { doSearch, getDailyMenu, getRestaurantDetail } from './controllers/Zomat
 import { getAll, createRandom } from './controllers/CustomController'
 import { pingDb } from './controllers/UtilityRepository'
 import * as db from './db'
-import {IScraper} from './scrapers/common'
+import * as redis from './redis'
+import { IScraper } from './scrapers/common'
+const redisUrlParse = require('redis-url-parse');
+
+
+var redisConfig = redisUrlParse(redis.REDIS_URL);
+//{host: 'example.com', port: 39143, database: '0', password: 'hunter2'}
+console.log(redisConfig);
+var cache = require('express-redis-cache')({
+    host: redisConfig.host, port: redisConfig.port, auth_pass: redisConfig.password, expire: 600
+})
 
 // BASE SETUP
 // =============================================================================
@@ -30,7 +40,7 @@ router.get('/', (req, res) => {
     res.status(200).json({ message: "This is LunchKeeper API" });
 });
 
-router.get('/zomato/search/:city', doSearch);
+router.get('/zomato/search/:city', cache.route({emit: 3600}), doSearch);
 router.get('/zomato/:id', getRestaurantDetail);
 router.get('/zomato/:id/dailymenu', getDailyMenu);
 router.get('/custom/all', getAll);
@@ -38,7 +48,7 @@ router.get('/custom/random', createRandom);
 router.get('/ping/db', pingDb);
 
 db.init();
-
+redis.init();
 
 
 // more routes for our API will happen here

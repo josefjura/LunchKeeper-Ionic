@@ -12,6 +12,14 @@ const ZomatoController_1 = require("./controllers/ZomatoController");
 const CustomController_1 = require("./controllers/CustomController");
 const UtilityRepository_1 = require("./controllers/UtilityRepository");
 const db = __importStar(require("./db"));
+const redis = __importStar(require("./redis"));
+const redisUrlParse = require('redis-url-parse');
+var redisConfig = redisUrlParse(redis.REDIS_URL);
+//{host: 'example.com', port: 39143, database: '0', password: 'hunter2'}
+console.log(redisConfig);
+var cache = require('express-redis-cache')({
+    host: redisConfig.host, port: redisConfig.port, auth_pass: redisConfig.password, expire: 600
+});
 // BASE SETUP
 // =============================================================================
 // call the packages we need
@@ -30,13 +38,14 @@ var router = express_1.Router(); // get an instance of the express Router
 router.get('/', (req, res) => {
     res.status(200).json({ message: "This is LunchKeeper API" });
 });
-router.get('/zomato/search/:city', ZomatoController_1.doSearch);
+router.get('/zomato/search/:city', cache.route({ emit: 3600 }), ZomatoController_1.doSearch);
 router.get('/zomato/:id', ZomatoController_1.getRestaurantDetail);
 router.get('/zomato/:id/dailymenu', ZomatoController_1.getDailyMenu);
 router.get('/custom/all', CustomController_1.getAll);
 router.get('/custom/random', CustomController_1.createRandom);
 router.get('/ping/db', UtilityRepository_1.pingDb);
 db.init();
+redis.init();
 // more routes for our API will happen here
 // REGISTER OUR ROUTES -----------
 // all of our routes will be prefixed with /api
