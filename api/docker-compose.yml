@@ -7,10 +7,17 @@ services:
     build: .
     environment:
       NODE_ENV: production
+      MONGODB_URI: mongodb://mongo:27017
+      REDIS_URL: redis://redis:6379
     ports:
       - 3000:3000
     depends_on: 
       - mongo
+      - redis
+    command: npm run serve
+    volumes:
+      - .:/home/app/appDir
+      - /home/app/appDir/node_modules
   mongo:
     container_name: lunchkeeper-api-mongo
     image: mongo

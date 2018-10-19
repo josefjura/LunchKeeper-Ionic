@@ -2,18 +2,10 @@ version: '2.1'
 
 services:
   lunchkeeper:
-    image: lunchkeeper-api
-    build: .
     environment:
       NODE_ENV: development
     ports:
       - 3000:3000
       - 9229:9229
     ## set your startup file here
-    command: node --inspect index.js
-    depends_on: 
-      - mongo
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
+    command: sh -c "npm i -g nodemon && npm i ts-node typescript && npm run debug"

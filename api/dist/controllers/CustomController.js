@@ -3,28 +3,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Scrape_1 = require("../schemas/Scrape");
-const v4_1 = __importDefault(require("uuid/v4"));
+const request_1 = __importDefault(require("request"));
+const scrapers_1 = __importDefault(require("../scrapers"));
+const headers = { 'Content-Type': 'application/json' };
 exports.getAll = (req, res, next) => {
-    Scrape_1.Scrape.find({}, (err, list) => {
-        if (err)
-            return res.status(500).send(err);
-        res.status(200).send(list.map((item) => {
-            return {
-                name: item.name,
-                url: item.url,
-                path: item.path
-            };
-        }));
-    });
+    return scrapers_1.default.map(x => { x.name, x.url; });
 };
-exports.createRandom = (req, res, next) => {
-    Scrape_1.Scrape.create(new Scrape_1.Scrape({
-        name: v4_1.default(),
-        url: "https://www.resturace.cz",
-        path: "TEST_TEMP_DELETE_TRASH"
-    })).then((done) => {
-        res.status(200).send(done);
+exports.scrape = (req, res, next) => {
+    var scraperName = req.params.name;
+    var scraper = scrapers_1.default.find(x => x.name === scraperName);
+    if (!scraper)
+        return res.status(404).send({ error: "NOT_FOUND", message: "Scraper not found" });
+    request_1.default.get(scraper.url, {
+        headers
+    }, (error, res2, body) => {
+        if (error) {
+            res.status(500).send({ error: "INTERNAL", message: "Internal error during web scrape" });
+        }
+        else {
+            res.status(200).send(scraper.scrape(res2.body));
+        }
     });
 };
 //# sourceMappingURL=CustomController.js.map

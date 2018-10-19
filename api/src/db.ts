@@ -1,6 +1,6 @@
 import { connect, connection, disconnect } from 'mongoose'
 
-const MONGO_DB_URI: string = process.env.MONGODB_URI || "mongodb://mongo:27017";
+const MONGO_DB_URI: string = process.env.MONGODB_URI;
 
 export function init() {
     console.log("Initializing MONGO DB on " + MONGO_DB_URI);

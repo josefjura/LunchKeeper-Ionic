@@ -1,22 +1,7 @@
-export interface IScraper {
-    name: string;
-    url: string;
-    scrape: (html: string)=> DailyMenu
-}
+import { DailyMenu, Dish, Section } from '../models/CustomModels'
 
-export namespace IScraper {
-    type Constructor<T> = {
-      new(...args: any[]): T;
-      readonly prototype: T;
-    }
-    const implementations: Constructor<IScraper>[] = [];
-    export function GetImplementations(): Constructor<IScraper>[] {
-        console.log("Getting");
-        return implementations;
-    }
-    export function register<T extends Constructor<IScraper>>(ctor: T) {
-        console.log("Registering");
-      implementations.push(ctor);
-      return ctor;
-    }
-  }
+export interface IScraper {
+    url : string;
+    name: string;
+    scrape(input: string) : DailyMenu;
+}

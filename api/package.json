@@ -5,9 +5,10 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "npm run serve",
+    "serve-ts": "node -r ts-node/register src/server.ts --inspect=0.0.0.0:9229",
     "serve": "node dist/server.js",
     "reserve": "npm run build && npm run serve",
-    "debug": "node --inspect dist/server.js",
+    "debug": "nodemon -L --watch src/ --exec 'npm run serve-ts' --verbose -e ts",
     "clean": "rimraf dist",
     "build": "npm run clean && npm run build-ts",
     "build-ts": "tsc",
@@ -37,6 +38,7 @@
     "redis-url-parse": "^1.0.2",
     "request": "^2.88.0",
     "through2": "^2.0.3",
+    "ts-node": "^7.0.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -47,7 +49,8 @@
     "@types/request": "^2.47.1",
     "@types/through2": "^2.0.34",
     "@types/uuid": "^3.4.4",
+    "nodemon": "^1.18.4",
     "rimraf": "^2.6.2",
-    "typescript": "^3.0.3"
+    "typescript": "^3.1.3"
   }
 }

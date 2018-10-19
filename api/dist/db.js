@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const MONGO_DB_URI = process.env.MONGODB_URI || "mongodb://mongo:27017";
+const MONGO_DB_URI = process.env.MONGODB_URI;
 function init() {
     console.log("Initializing MONGO DB on " + MONGO_DB_URI);
     mongoose_1.connect(MONGO_DB_URI, (err) => {

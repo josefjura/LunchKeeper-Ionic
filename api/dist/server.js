@@ -14,11 +14,15 @@ const UtilityRepository_1 = require("./controllers/UtilityRepository");
 const db = __importStar(require("./db"));
 const redis = __importStar(require("./redis"));
 const redisUrlParse = require('redis-url-parse');
+console.log(`Starting LunchKeeper API (${process.env.NODE_ENV})`);
 var redisConfig = redisUrlParse(redis.REDIS_URL);
 //{host: 'example.com', port: 39143, database: '0', password: 'hunter2'}
 console.log(redisConfig);
 var cache = require('express-redis-cache')({
-    host: redisConfig.host, port: redisConfig.port, auth_pass: redisConfig.password, expire: 600
+    host: redisConfig.host, port: redisConfig.port, auth_pass: redisConfig.password, expire: 3600
+});
+cache.on('message', function (message) {
+    console.log(message);
 });
 // BASE SETUP
 // =============================================================================
@@ -36,16 +40,17 @@ var port = process.env.PORT || 3000; // set our port
 var router = express_1.Router(); // get an instance of the express Router
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', (req, res) => {
-    res.status(200).json({ message: "This is LunchKeeper API" });
+    res.status(200).json({ message: "LunchKeeper API 0.0.1" });
 });
-router.get('/zomato/search/:city', cache.route({ emit: 3600 }), ZomatoController_1.doSearch);
-router.get('/zomato/:id', ZomatoController_1.getRestaurantDetail);
-router.get('/zomato/:id/dailymenu', ZomatoController_1.getDailyMenu);
+router.get('/zomato/search/:city', cache.route(), ZomatoController_1.doSearch);
+router.get('/zomato/:id', cache.route(), ZomatoController_1.getRestaurantDetail);
+router.get('/zomato/:id/dailymenu', cache.route(), ZomatoController_1.getDailyMenu);
 router.get('/custom/all', CustomController_1.getAll);
-router.get('/custom/random', CustomController_1.createRandom);
+router.get('/custom/:name', CustomController_1.scrape);
 router.get('/ping/db', UtilityRepository_1.pingDb);
 db.init();
 redis.init();
+//ScraperContainer.registerModule(BasicScrapers);
 // more routes for our API will happen here
 // REGISTER OUR ROUTES -----------
 // all of our routes will be prefixed with /api

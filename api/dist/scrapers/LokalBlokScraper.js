@@ -1,21 +1,40 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const common_1 = require("./common");
-let LokalBlokScraper = class LokalBlokScraper {
+const cheerio_1 = __importDefault(require("cheerio"));
+const CustomModels_1 = require("../models/CustomModels");
+class LokalBlokScraper {
     constructor() {
-        this.name = "LokalBlok";
+        this.name = "lokalblok";
+        this.url = 'http://www.lokalblok.cz/jidelni-listek';
         this.scrape = (html) => {
-            return new DailyMenu();
+            let currentDayMenu = cheerio_1.default.load(html)("#lunch .menu-section").first();
+            if (!currentDayMenu)
+                return null;
+            //var day = currentDayMenu.find('h2').text();
+            var dishes = currentDayMenu.find('p');
+            let toReturn = new CustomModels_1.DailyMenu();
+            toReturn.sections = [];
+            let mainSection = new CustomModels_1.Section();
+            mainSection.name = "";
+            mainSection.dishes = [];
+            dishes.each((i, el) => {
+                var chel = cheerio_1.default(el);
+                var priceEl = chel.find("span").first();
+                var price = priceEl.text();
+                priceEl.remove();
+                var text = chel.text().trim();
+                mainSection.dishes.push({
+                    name: text,
+                    price: price
+                });
+            });
+            toReturn.sections.push(mainSection);
+            return toReturn;
         };
     }
-};
-LokalBlokScraper = __decorate([
-    common_1.IScraper.register
-], LokalBlokScraper);
+}
+exports.LokalBlokScraper = LokalBlokScraper;
 //# sourceMappingURL=LokalBlokScraper.js.map

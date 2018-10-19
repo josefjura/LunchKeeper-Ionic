@@ -1,13 +1,13 @@
-class DailyMenu {
+export class DailyMenu {
     sections: Section[];
 }
 
-class Section {
+export class Section {
     name: string;
     dishes: Dish[];
 }
 
-class Dish{
+export class Dish{
     name: string;
     price: string;
 }
