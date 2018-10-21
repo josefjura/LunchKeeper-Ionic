@@ -1,6 +1,4 @@
 import { RequestHandler, NextFunction, Request, Response } from 'express'
-import { Scrape } from '../schemas/Scrape'
-import uuidv4 from 'uuid/v4';
 
 import request from 'request'
 import scrapers from '../scrapers'
@@ -8,7 +6,15 @@ import scrapers from '../scrapers'
 const headers = { 'Content-Type': 'application/json' };
 
 export var getAll: RequestHandler = (req: Request, res: Response, next: NextFunction): any => {
-    return scrapers.map(x => { x.name, x.url });
+    var result = scrapers.map(x => {
+        return {
+            name: x.name,
+            url: x.url
+        }
+    })
+
+    console.log(result);
+    res.status(200).json(result);
 }
 
 export var scrape: RequestHandler = (req: Request, res: Response, next: NextFunction): any => {
