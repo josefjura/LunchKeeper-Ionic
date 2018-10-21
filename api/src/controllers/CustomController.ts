@@ -9,6 +9,7 @@ export var getAll: RequestHandler = (req: Request, res: Response, next: NextFunc
     var result = scrapers.map(x => {
         return {
             name: x.name,
+            fullName: x.fullName,
             url: x.url
         }
     })

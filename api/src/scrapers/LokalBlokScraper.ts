@@ -5,6 +5,7 @@ import { DailyMenu, Section } from '../models/CustomModels'
 
 export class LokalBlokScraper implements IScraper {
     name: string = "lokalblok";
+    fullName: string = "LokalBlok";
     url: string = 'http://www.lokalblok.cz/jidelni-listek';
 
     scrape: (html: string) => DailyMenu = (html) => {
