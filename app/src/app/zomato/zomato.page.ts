@@ -5,11 +5,11 @@ import { StorageService } from '../storage.service'
 import { RestaurantInfoViewModel } from '../models';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.page.html',
-  styleUrls: ['./search.page.scss'],
+  selector: 'app-zomato',
+  templateUrl: './zomato.page.html',
+  styleUrls: ['./zomato.page.scss'],
 })
-export class SearchPage implements OnInit {
+export class ZomatoPage implements OnInit {
 
   results: RestaurantInfoViewModel[];
   public searchText: string;

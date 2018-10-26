@@ -16,8 +16,8 @@ export class AppComponent {
       icon: 'beer'
     },
     {
-      title: 'Search',
-      url: '/search',
+      title: 'Zomato',
+      url: '/zomato',
       icon: 'search'
     },
     {
