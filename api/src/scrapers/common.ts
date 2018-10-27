@@ -1,4 +1,4 @@
-import { DailyMenu, Dish, Section } from '../models/CustomModels'
+import { DailyMenu, Dish, Section } from '../models/DTO'
 
 export interface IScraper {
     url : string;

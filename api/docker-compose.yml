@@ -6,15 +6,17 @@ services:
     container_name: lunchkeeper-api 
     build: .
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       MONGODB_URI: mongodb://mongo:27017
       REDIS_URL: redis://redis:6379
+      ZOMATO_API_KEY: 7801edd0712e8d74b9947053e48a9f1a
     ports:
       - 3000:3000
+      - 9229:9229
     depends_on: 
       - mongo
       - redis
-    command: npm run serve
+    command: sh -c "npm i -g nodemon && npm i ts-node typescript && npm run debug"
     volumes:
       - .:/home/app/appDir
       - /home/app/appDir/node_modules

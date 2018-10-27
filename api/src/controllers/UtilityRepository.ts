@@ -1,6 +1,4 @@
 import { RequestHandler, NextFunction, Request, Response } from 'express'
-import request from 'request'
-import { handleCall } from './Common'
 import { connect, connection } from 'mongoose'
 
 export var pingDb: RequestHandler = (req, res, next) => {

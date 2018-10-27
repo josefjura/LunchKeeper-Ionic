@@ -1,6 +1,6 @@
 import ch from 'cheerio'
 import { IScraper } from './Common'
-import { DailyMenu, Section } from '../models/CustomModels'
+import { DailyMenu, Section } from '../models/DTO'
 
 
 export class LokalBlokScraper implements IScraper {
@@ -16,11 +16,14 @@ export class LokalBlokScraper implements IScraper {
         //var day = currentDayMenu.find('h2').text();
         var dishes = currentDayMenu.find('p');
 
-        let toReturn = new DailyMenu();
-        toReturn.sections = [];
-        let mainSection = new Section();
-        mainSection.name = "";
-        mainSection.dishes = []
+        let toReturn: DailyMenu = {
+            sections: []
+        };
+
+        let mainSection: Section = {
+            name: "",
+            dishes: []
+        }
 
         dishes.each((i, el) => {
             var chel = ch(el);

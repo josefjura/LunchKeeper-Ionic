@@ -1,10 +1,11 @@
 // server.js
-import { doSearch, getDailyMenu, getRestaurantDetail } from './controllers/ZomatoController'
-import { getAll, scrape } from './controllers/CustomController'
+import * as zomato from './controllers/ZomatoController'
+import * as custom from './controllers/CustomController'
 import { pingDb } from './controllers/UtilityRepository'
 import * as db from './db'
 import * as redis from './redis'
 const redisUrlParse = require('redis-url-parse');
+import {ZOMATO_API_KEY} from './zomato'
 
 console.log(`Starting LunchKeeper API (${process.env.NODE_ENV})`);
 
@@ -42,15 +43,17 @@ router.get('/', (req, res) => {
     res.status(200).json({ message: "LunchKeeper API 0.0.1" });
 });
 
-router.get('/zomato/search/:city', cache.route(), doSearch);
-router.get('/zomato/:id', cache.route(), getRestaurantDetail);
-router.get('/zomato/:id/dailymenu', cache.route(), getDailyMenu);
-router.get('/custom/all', getAll);
-router.get('/custom/:name', scrape);
+router.get('/zomato/search/:city', cache.route(), zomato.doSearch);
+router.get('/zomato/:id', cache.route(), zomato.getRestaurantDetail);
+router.get('/zomato/:id/dailymenu', cache.route(), zomato.getDailyMenu);
+router.get('/custom/all', custom.getAll);
+router.get('/custom/:name', custom.scrape);
 router.get('/ping/db', pingDb);
+
 
 db.init();
 redis.init();
+console.log(ZOMATO_API_KEY)
 
 //ScraperContainer.registerModule(BasicScrapers);
 

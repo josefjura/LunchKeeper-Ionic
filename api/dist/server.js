@@ -8,8 +8,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // server.js
-const ZomatoController_1 = require("./controllers/ZomatoController");
-const CustomController_1 = require("./controllers/CustomController");
+const zomato = __importStar(require("./controllers/ZomatoController"));
+const custom = __importStar(require("./controllers/CustomController"));
 const UtilityRepository_1 = require("./controllers/UtilityRepository");
 const db = __importStar(require("./db"));
 const redis = __importStar(require("./redis"));
@@ -42,11 +42,11 @@ var router = express_1.Router(); // get an instance of the express Router
 router.get('/', (req, res) => {
     res.status(200).json({ message: "LunchKeeper API 0.0.1" });
 });
-router.get('/zomato/search/:city', cache.route(), ZomatoController_1.doSearch);
-router.get('/zomato/:id', cache.route(), ZomatoController_1.getRestaurantDetail);
-router.get('/zomato/:id/dailymenu', cache.route(), ZomatoController_1.getDailyMenu);
-router.get('/custom/all', CustomController_1.getAll);
-router.get('/custom/:name', CustomController_1.scrape);
+router.get('/zomato/search/:city', cache.route(), zomato.doSearch);
+router.get('/zomato/:id', cache.route(), zomato.getRestaurantDetail);
+router.get('/zomato/:id/dailymenu', cache.route(), zomato.getDailyMenu);
+router.get('/custom/all', custom.getAll);
+router.get('/custom/:name', custom.scrape);
 router.get('/ping/db', UtilityRepository_1.pingDb);
 db.init();
 redis.init();

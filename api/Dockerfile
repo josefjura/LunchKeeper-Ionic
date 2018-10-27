@@ -5,7 +5,7 @@ ENV SUBDIR=appDir
 
 #RUN npm install --global typescript
 ENV HOME=/home/${USER}
-
+ENV ZOMATO_API_KEY=7801edd0712e8d74b9947053e48a9f1a
 
 
 RUN npm i -g typescript

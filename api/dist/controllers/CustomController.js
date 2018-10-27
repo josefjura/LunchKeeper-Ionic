@@ -7,7 +7,15 @@ const request_1 = __importDefault(require("request"));
 const scrapers_1 = __importDefault(require("../scrapers"));
 const headers = { 'Content-Type': 'application/json' };
 exports.getAll = (req, res, next) => {
-    return scrapers_1.default.map(x => { x.name, x.url; });
+    var result = scrapers_1.default.map(x => {
+        return {
+            name: x.name,
+            fullName: x.fullName,
+            url: x.url
+        };
+    });
+    console.log(result);
+    res.status(200).json(result);
 };
 exports.scrape = (req, res, next) => {
     var scraperName = req.params.name;
