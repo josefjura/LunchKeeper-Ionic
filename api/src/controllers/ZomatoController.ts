@@ -3,6 +3,7 @@ import request from 'request-promise-native'
 import { ZOMATO_URL, ZOMATO_API_KEY } from '../zomato'
 import { SEARCH_RESULT_TYPE } from '../models/DTO'
 import * as service from '../services/ZomatoService'
+import { handleRequest } from './Helpers'
 
 export var search: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     await handleRequest(res, async () => {
@@ -26,21 +27,6 @@ export var getDailyMenu: RequestHandler = async (req: Request, res: Response, ne
     })
 
     return next();
-}
-
-async function handleRequest<T>(res: Response, functionCall: () => Promise<T>) {
-    try {
-        let result = await functionCall();
-
-        if (result) {
-            res.status(200).send(result);
-        }
-        else {
-            res.status(404).send();
-        }
-    } catch (err) {
-        res.status(500).send(err);
-    }
 }
 
 
