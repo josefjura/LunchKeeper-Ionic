@@ -1,79 +1,46 @@
 import { RequestHandler, NextFunction, Request, Response } from 'express'
-import request from 'request-promise'
-import {ZOMATO_URL, ZOMATO_API_KEY} from '../zomato'
-import {SEARCH_RESULT_TYPE} from '../models/DTO'
-
-const headers = { 'Content-Type': 'application/json', 'user-key': ZOMATO_API_KEY };
+import request from 'request-promise-native'
+import { ZOMATO_URL, ZOMATO_API_KEY } from '../zomato'
+import { SEARCH_RESULT_TYPE } from '../models/DTO'
+import * as service from '../services/ZomatoService'
 
 export var search: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    await request.get(`${ZOMATO_URL}/search`, {
-        headers,
-        json: true,
-        transform: i => ({
-            restaurants: i.restaurants.map(r => ({
-                id: r.restaurant.id,
-                name: r.restaurant.name,
-                thumb: r.restaurant.thumb,
-                url: r.restaurant.url,
-                source: SEARCH_RESULT_TYPE.Zomato
-            }))
-        }),
-        qs: {
-            entity_id: req.params.city,
-            entity_type: "city",
-            q: req.query.q
-        }
-    }).then(handleFullfill(res), handleReject(res));
+    await handleRequest(res, async () => {
+        return service.search(req.query.q, req.params.city);
+    })
 
     return next();
 }
 
 export var getRestaurantDetail: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    await request.get(`${ZOMATO_URL}/restaurant`, {
-        headers,
-        json: true,
-        transform: i => ({
-            id: i.restaurant.id,
-            name: i.restaurant.name,
-            thumb: i.restaurant.thumb,
-            url: i.restaurant.url
-        }),
-        qs: {
-            res_id: req.params.id
-        }
-    }).then(handleFullfill(res), handleReject(res));
+    await handleRequest(res, async () => {
+        return service.getRestaurantDetail(req.params.id);
+    })
 
     return next();
 }
 
 export var getDailyMenu: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    await request.get(`${ZOMATO_URL}/dailymenu`, {
-        headers,
-        json: true,
-        transform: i => ({
-            sections: i.daily_menus.map(r => ({
-                name: r.daily_menu.name,
-                dishes: r.daily_menu.dishes.map(d => ({
-                    name: d.dish.name,
-                    price: d.dish.price
-                }))
-            }
-            ))
-        }),
-        qs: {
-            res_id: req.params.id
-        }
-    }).then(handleFullfill(res), handleReject(res));
+    await handleRequest(res, async () => {
+        return service.getDailyMenu(req.params.id);
+    })
 
     return next();
 }
 
-function handleFullfill(res: Response) {
-    return (body) => { res.status(200).send(body); }
-}
+async function handleRequest<T>(res: Response, functionCall: () => Promise<T>) {
+    try {
+        let result = await functionCall();
 
-function handleReject(res: Response) {
-    return (err) => { res.status(500).send(err) }
+        if (result) {
+            res.status(200).send(result);
+        }
+        else {
+            res.status(404).send();
+        }
+    } catch (err) {
+        res.status(500).send(err);
+    }
 }
 
 

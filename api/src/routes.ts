@@ -10,6 +10,10 @@ var cache = require('express-redis-cache')({
     host: redisConfig.host, port: redisConfig.port, auth_pass: redisConfig.password, expire: 3600
 })
 
+cache.on('message', (m)=>{
+    console.log(m);
+});
+
 export function init(): Router {
     var router = Router();              // get an instance of the express Router
 
