@@ -1,11 +1,13 @@
 import ch from 'cheerio'
 import { IScraper } from './Common'
-import { DailyMenu, Section } from '../models/DTO'
+import { DailyMenu, Section, SEARCH_RESULT_TYPE } from '../models/DTO'
 
 
 export class LokalBlokScraper implements IScraper {
-    name: string = "lokalblok";
-    fullName: string = "LokalBlok";
+    thumb: string = "http://www.lokalblok.cz/assets/cs/images/logo.png";
+    source: SEARCH_RESULT_TYPE = SEARCH_RESULT_TYPE.Custom;
+    id: string = "lokalblok";
+    name: string = "LokalBlok";
     url: string = 'http://www.lokalblok.cz/jidelni-listek';
 
     scrape: (html: string) => DailyMenu = (html) => {

@@ -1,10 +1,11 @@
 import { RequestHandler, NextFunction, Request, Response } from 'express'
 import request from 'request-promise'
 import {ZOMATO_URL, ZOMATO_API_KEY} from '../zomato'
+import {SEARCH_RESULT_TYPE} from '../models/DTO'
 
 const headers = { 'Content-Type': 'application/json', 'user-key': ZOMATO_API_KEY };
 
-export var doSearch: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export var search: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     await request.get(`${ZOMATO_URL}/search`, {
         headers,
         json: true,
@@ -13,7 +14,8 @@ export var doSearch: RequestHandler = async (req: Request, res: Response, next: 
                 id: r.restaurant.id,
                 name: r.restaurant.name,
                 thumb: r.restaurant.thumb,
-                url: r.restaurant.url
+                url: r.restaurant.url,
+                source: SEARCH_RESULT_TYPE.Zomato
             }))
         }),
         qs: {

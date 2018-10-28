@@ -3,10 +3,11 @@ export interface SearchResult {
 }
 
 export interface Restaurant {
-    id: number
+    id: number|string
     name: string
     url: string
     thumb: string
+    source: SEARCH_RESULT_TYPE
 }
 
 export interface DailyMenu {
