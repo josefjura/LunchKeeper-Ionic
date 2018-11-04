@@ -15,7 +15,7 @@ export class LokalBlokScraper implements IScraper {
 
         if (!currentDayMenu) return null;
 
-        //var day = currentDayMenu.find('h2').text();
+        var day = currentDayMenu.find('h2').text();
         var dishes = currentDayMenu.find('p');
 
         let toReturn: DailyMenu = {
@@ -23,7 +23,7 @@ export class LokalBlokScraper implements IScraper {
         };
 
         let mainSection: Section = {
-            name: "",
+            name: day,
             dishes: []
         }
 
