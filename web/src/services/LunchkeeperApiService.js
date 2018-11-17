@@ -12,3 +12,8 @@ export async function getDetails(id, source) {
     var result = await request(`${API_URL}/lunch/${source}/${id}`);
     return JSON.parse(result.body);
 }
+
+export async function getMenu(id, source) {
+    var result = await request(`${API_URL}/lunch/${source}/${id}/menu`);
+    return JSON.parse(result.body);
+}

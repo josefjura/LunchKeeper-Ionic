@@ -8,7 +8,6 @@
         @keyup.enter="search"
         append-outer-icon="search"
         v-model="searchTerm"></v-text-field>
-        <span>{{this.$store.getters.restaurants}}</span>
     <restaurant-search-result-list :results="results" :loading="loading" />
   </div>
 </template>

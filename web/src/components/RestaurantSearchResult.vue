@@ -3,7 +3,7 @@
     <v-list-tile-action>
       <v-icon v-if="checked" color="pink">done</v-icon>
     </v-list-tile-action>
-    <v-list-tile-avatar>
+    <v-list-tile-avatar class="background-paint">
       <img :src="thumb">
     </v-list-tile-avatar>
     <v-list-tile-content @click="checkRestaurant(id, source)">
@@ -31,3 +31,8 @@ export default {
 };
 </script>
 
+<style>
+  .background-paint img{
+    background-color: black;
+  }
+</style>

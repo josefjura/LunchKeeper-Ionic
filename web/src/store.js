@@ -1,5 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersist from 'vuex-persist'
+
+const vuexPersist = new VuexPersist({
+  key: 'lunchkeeper',
+  storage: localStorage
+})
+
 
 Vue.use(Vuex)
 
@@ -20,5 +27,6 @@ export default new Vuex.Store({
   },
   getters: {
     restaurants: state => state.restaurants
-  }
+  },
+  plugins: [vuexPersist.plugin]
 })

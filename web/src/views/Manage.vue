@@ -19,12 +19,13 @@ export default {
   },
   methods: {
     async loadRestaurants() {
-        var items = this.$store.getters.restaurants;
-        for (var i in items){
-          var item = items[i];
-          var result = await getDetails(item.id, item.source);
-          this.results.push(result);
-        }
+      this.loading = true;
+      var items = this.$store.getters.restaurants;
+      for (const item of items) {
+        var result = await getDetails(item.id, item.source);
+        this.results.push(result);
+      }
+      this.loading = false;
     }
   },
   components: { RestaurantSearchResultList }
