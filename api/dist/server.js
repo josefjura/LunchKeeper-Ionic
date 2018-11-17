@@ -1,4 +1,5 @@
 "use strict";
+// server.js
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -6,50 +7,34 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// server.js
-const zomato = __importStar(require("./controllers/ZomatoController"));
-const custom = __importStar(require("./controllers/CustomController"));
-const UtilityRepository_1 = require("./controllers/UtilityRepository");
 const db = __importStar(require("./db"));
 const redis = __importStar(require("./redis"));
-const redisUrlParse = require('redis-url-parse');
+const routes = __importStar(require("./routes"));
 console.log(`Starting LunchKeeper API (${process.env.NODE_ENV})`);
-var redisConfig = redisUrlParse(redis.REDIS_URL);
-//{host: 'example.com', port: 39143, database: '0', password: 'hunter2'}
-console.log(redisConfig);
-var cache = require('express-redis-cache')({
-    host: redisConfig.host, port: redisConfig.port, auth_pass: redisConfig.password, expire: 3600
-});
-cache.on('message', function (message) {
-    console.log(message);
-});
 // BASE SETUP
 // =============================================================================
 // call the packages we need
-const express_1 = __importStar(require("express")); // call express
+const express_1 = __importDefault(require("express")); // call express
 var app = express_1.default(); // define our app using express
 const body_parser_1 = require("body-parser");
+const cors_1 = __importDefault(require("cors"));
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(body_parser_1.urlencoded({ extended: true }));
 app.use(body_parser_1.json());
+app.use(cors_1.default({
+    origin: "http://localhost:8080"
+}));
 var port = process.env.PORT || 3000; // set our port
 // ROUTES FOR OUR API
 // =============================================================================
-var router = express_1.Router(); // get an instance of the express Router
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', (req, res) => {
-    res.status(200).json({ message: "LunchKeeper API 0.0.1" });
-});
-router.get('/zomato/search/:city', cache.route(), zomato.doSearch);
-router.get('/zomato/:id', cache.route(), zomato.getRestaurantDetail);
-router.get('/zomato/:id/dailymenu', cache.route(), zomato.getDailyMenu);
-router.get('/custom/all', custom.getAll);
-router.get('/custom/:name', custom.scrape);
-router.get('/ping/db', UtilityRepository_1.pingDb);
 db.init();
 redis.init();
+let router = routes.init();
 //ScraperContainer.registerModule(BasicScrapers);
 // more routes for our API will happen here
 // REGISTER OUR ROUTES -----------
@@ -62,5 +47,5 @@ app.use('/api', router);
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log('LunchKeeper API started on port: ' + port);
 //# sourceMappingURL=server.js.map

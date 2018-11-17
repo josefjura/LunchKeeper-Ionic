@@ -15,24 +15,28 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const service = __importStar(require("../services/ZomatoService"));
-const Helpers_1 = require("./Helpers");
-exports.search = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
-        return service.search(req.query.q, req.params.city);
-    }));
-    return next();
+const DTO_1 = require("../models/DTO");
+const ZomatoService = __importStar(require("../services/ZomatoService"));
+const CustomService = __importStar(require("../services/CustomService"));
+exports.search = (name) => __awaiter(this, void 0, void 0, function* () {
+    var zomato = yield ZomatoService.search(name, "84");
+    var custom = CustomService.search(name);
+    let restaurants = [
+        ...zomato.restaurants,
+        ...custom
+    ];
+    return {
+        restaurants
+    };
 });
-exports.getRestaurantDetail = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
-        return service.getRestaurantDetail(req.params.id);
-    }));
-    return next();
+exports.dailyMenu = (source, id) => __awaiter(this, void 0, void 0, function* () {
+    switch (source) {
+        case DTO_1.SEARCH_RESULT_TYPE.Zomato:
+            return yield ZomatoService.getDailyMenu(id);
+        case DTO_1.SEARCH_RESULT_TYPE.Custom:
+            return yield CustomService.scrape(id);
+        default:
+            throw Error;
+    }
 });
-exports.getDailyMenu = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
-        return service.getDailyMenu(req.params.id);
-    }));
-    return next();
-});
-//# sourceMappingURL=ZomatoController.js.map
+//# sourceMappingURL=LunchService.js.map

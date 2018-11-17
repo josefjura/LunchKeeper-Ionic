@@ -4,6 +4,7 @@ import * as db from './db'
 import * as redis from './redis'
 import * as routes from './routes'
 
+
 console.log(`Starting LunchKeeper API (${process.env.NODE_ENV})`);
 
 // BASE SETUP
@@ -13,11 +14,15 @@ console.log(`Starting LunchKeeper API (${process.env.NODE_ENV})`);
 import express from 'express';        // call express
 var app = express();                 // define our app using express
 import { urlencoded, json } from 'body-parser';
+import cors from 'cors'
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(urlencoded({ extended: true }));
 app.use(json());
+app.use(cors({
+    origin: "http://localhost:8080"
+}));
 
 var port = process.env.PORT || 3000        // set our port
 
