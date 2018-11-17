@@ -1,0 +1,36 @@
+version: '2.1'
+
+services:
+  web:
+    image: lunchkeeper-web
+    container_name: lunchkeeper-web
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8080:80
+    depends_on: 
+      - api
+  api:
+    container_name: lunchkeeper-web-api
+    build: ../api/
+    environment:
+      NODE_ENV: development
+      MONGODB_URI: mongodb://mongo:27017
+      REDIS_URL: redis://redis:6379
+      ZOMATO_API_KEY: 7801edd0712e8d74b9947053e48a9f1a
+    ports: 
+      - 3000:3000
+    depends_on: 
+      - mongo
+      - redis
+  mongo:
+    container_name: lunchkeeper-web-api-mongo
+    image: mongo
+    ports: 
+      - "27017:27017"
+  redis:
+    container_name: lunchkeeper-web-api-redis
+    image: redis
+    ports: 
+      - "6379:6379"
