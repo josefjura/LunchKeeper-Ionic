@@ -4,6 +4,18 @@ import { Restaurant, SEARCH_RESULT_TYPE, DailyMenu } from '../models/DTO'
 import request from 'request-promise-native'
 import scrapers from '../scrapers'
 
+export var getDetails = (name: string): Restaurant => {
+    var result = scrapers.find(x => x.id.indexOf(name) != -1);
+
+    return {
+        id: result.id,
+        name: result.name,
+        source: SEARCH_RESULT_TYPE.Custom,
+        thumb: result.thumb,
+        url: result.url
+    };
+}
+
 export var search = (name: string): Restaurant[] => {
     var result = scrapers.filter(x => x.id.indexOf(name) != -1).map<Restaurant>(x => (
         {

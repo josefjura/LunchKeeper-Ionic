@@ -35,10 +35,11 @@ export var getRestaurantDetail = async (id: number): Promise<Restaurant> => {
         headers,
         json: true,
         transform: i => ({
-            id: i.restaurant.id,
-            name: i.restaurant.name,
-            thumb: i.restaurant.thumb,
-            url: i.restaurant.url
+            id: i.id,
+            name: i.name,
+            thumb: i.thumb,
+            url: i.url,
+            source: SEARCH_RESULT_TYPE.Zomato
         }),
         qs: {
             res_id: id

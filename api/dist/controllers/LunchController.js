@@ -30,4 +30,15 @@ exports.dailyMenu = (req, res, next) => __awaiter(this, void 0, void 0, function
     }));
     return next();
 });
+exports.details = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
+            return service.details(parseInt(req.params.type), req.params.id);
+        }));
+    }
+    catch (err) {
+        console.error(err);
+    }
+    return next();
+});
 //# sourceMappingURL=LunchController.js.map

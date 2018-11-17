@@ -36,7 +36,22 @@ exports.dailyMenu = (source, id) => __awaiter(this, void 0, void 0, function* ()
         case DTO_1.SEARCH_RESULT_TYPE.Custom:
             return yield CustomService.scrape(id);
         default:
-            throw Error;
+            throw Error("Unknown SOURCE");
+    }
+});
+exports.details = (source, id) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        switch (source) {
+            case DTO_1.SEARCH_RESULT_TYPE.Zomato:
+                return yield ZomatoService.getRestaurantDetail(id);
+            case DTO_1.SEARCH_RESULT_TYPE.Custom:
+                return yield CustomService.getDetails(id);
+            default:
+                throw Error("Unknown SOURCE");
+        }
+    }
+    catch (err) {
+        console.error(err);
     }
 });
 //# sourceMappingURL=LunchService.js.map

@@ -14,6 +14,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const DTO_1 = require("../models/DTO");
 const request_promise_native_1 = __importDefault(require("request-promise-native"));
 const scrapers_1 = __importDefault(require("../scrapers"));
+exports.getDetails = (name) => {
+    var result = scrapers_1.default.find(x => x.id.indexOf(name) != -1);
+    return {
+        id: result.id,
+        name: result.name,
+        source: DTO_1.SEARCH_RESULT_TYPE.Custom,
+        thumb: result.thumb,
+        url: result.url
+    };
+};
 exports.search = (name) => {
     var result = scrapers_1.default.filter(x => x.id.indexOf(name) != -1).map(x => ({
         id: x.id,

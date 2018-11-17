@@ -33,7 +33,8 @@ function init() {
     router.get('/custom/all', custom.getAll);
     router.get('/custom/:name', custom.scrape);
     router.get('/lunch', lunch.search);
-    router.get('/lunch/:type/:id', lunch.dailyMenu);
+    router.get('/lunch/:type/:id', lunch.details);
+    router.get('/lunch/:type/:id/menu', lunch.dailyMenu);
     router.get('/ping/db', UtilityRepository_1.pingDb);
     return router;
 }

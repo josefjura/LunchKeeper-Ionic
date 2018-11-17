@@ -22,6 +22,16 @@ export var dailyMenu: RequestHandler = async (req: Request, res: Response, next:
     return next();
 }
 
+export var details: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+        await handleRequest(res, async () => {
+            return service.details(parseInt(req.params.type), req.params.id);
+        });
+    } catch (err) { console.error(err) }
+
+    return next();
+}
+
 
 
 

@@ -44,10 +44,11 @@ exports.getRestaurantDetail = (id) => __awaiter(this, void 0, void 0, function* 
         headers,
         json: true,
         transform: i => ({
-            id: i.restaurant.id,
-            name: i.restaurant.name,
-            thumb: i.restaurant.thumb,
-            url: i.restaurant.url
+            id: i.id,
+            name: i.name,
+            thumb: i.thumb,
+            url: i.url,
+            source: DTO_1.SEARCH_RESULT_TYPE.Zomato
         }),
         qs: {
             res_id: id

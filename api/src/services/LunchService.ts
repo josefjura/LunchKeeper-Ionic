@@ -1,4 +1,4 @@
-import { SearchResult, SEARCH_RESULT_TYPE } from '../models/DTO'
+import { SearchResult, SEARCH_RESULT_TYPE, Restaurant } from '../models/DTO'
 import * as ZomatoService from '../services/ZomatoService'
 import * as CustomService from '../services/CustomService'
 import { DailyMenu } from '../models/DTO';
@@ -24,6 +24,21 @@ export var dailyMenu = async (source: SEARCH_RESULT_TYPE, id: number | string): 
         case SEARCH_RESULT_TYPE.Custom:
             return await CustomService.scrape(id as string);
         default:
-            throw Error;
+            throw Error("Unknown SOURCE");
+    }
+}
+
+export var details = async (source: SEARCH_RESULT_TYPE, id: number | string): Promise<Restaurant> => {
+    try {
+        switch (source) {
+            case SEARCH_RESULT_TYPE.Zomato:
+                return await ZomatoService.getRestaurantDetail(id as number);
+            case SEARCH_RESULT_TYPE.Custom:
+                return await CustomService.getDetails(id as string);
+            default:
+                throw Error("Unknown SOURCE");
+        }
+    } catch (err) {
+        console.error(err);
     }
 }
