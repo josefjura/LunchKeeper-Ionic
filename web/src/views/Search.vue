@@ -1,9 +1,39 @@
 <template>
   <div class="about">
-    <h1>This is a search page</h1>
+    <v-text-field label="Search" 
+        solo 
+        clearable 
+        single-line 
+        @click:append-outer="search" 
+        @keyup.enter="search"
+        append-outer-icon="search"
+        v-model="searchTerm"></v-text-field>
+        <span>{{this.$store.getters.restaurants}}</span>
+    <restaurant-search-result-list :results="results" :loading="loading" />
   </div>
 </template>
 
 <script>
-export default {};
+import { search } from "../services/LunchkeeperApiService";
+
+import RestaurantSearchResultList from "../components/RestaurantSearchResultList";
+
+export default {
+  data: () => ({
+    results: [],
+    searchTerm: "",
+    loading: false
+  }),
+  mounted() {},
+  methods: {
+    async search() {
+      this.searchTerm = "";
+      this.results = [];
+      this.loading = true;
+      this.results = await search(this.searchTerm);
+      this.loading = false;
+    }
+  },
+  components: { RestaurantSearchResultList }
+};
 </script>
