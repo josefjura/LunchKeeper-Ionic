@@ -16,13 +16,37 @@ var app = express();                 // define our app using express
 import { urlencoded, json } from 'body-parser';
 import cors from 'cors'
 
+// const whitelist = ["https://lunchkeeper-web.herokuapp.com/", "http://localhost:8080"];
+
+// var options = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
+
+// app.use(cors(options));
+// console.log(`CORS setup with: ${options.origin}`);
+
+
+app.use(function (req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "https://lunchkeeper-web.herokuapp.com");
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    next();
+});
+
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(urlencoded({ extended: true }));
 app.use(json());
-app.use(cors({
-    origin: "http://localhost:8080"
-}));
+
+
+
 
 var port = process.env.PORT || 3000        // set our port
 

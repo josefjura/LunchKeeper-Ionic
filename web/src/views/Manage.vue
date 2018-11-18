@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { search, getDetails } from "../services/LunchkeeperApiService";
+import { getDetails } from "../services/LunchkeeperApiService";
 
 import RestaurantSearchResultList from "../components/RestaurantSearchResultList";
 

@@ -25,11 +25,11 @@ export default {
   }),
   mounted() {},
   methods: {
-    async search() {
-      this.searchTerm = "";
+    async search() {      
       this.results = [];
       this.loading = true;
       this.results = await search(this.searchTerm);
+      this.searchTerm = "";
       this.loading = false;
     }
   },
