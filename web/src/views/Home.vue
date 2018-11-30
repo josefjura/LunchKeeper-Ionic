@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!loading">
     <div v-if="restaurants.length > 0">
       <restaurant v-for="res in restaurants" :key="res.id" :menus="res.menus" :name="res.name"></restaurant>
     </div>
@@ -10,6 +10,9 @@
       </router-link>
     </div>
   </div>
+  <div v-else class="text-xs-center">
+    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+  </div>
 </template>
 
 <script>
@@ -17,13 +20,19 @@ import { getMenu, getDetails } from "../services/LunchkeeperApiService";
 import Restaurant from "../components/Restaurant";
 
 export default {
-  data: () => ({ restaurants: [] }),
+  data: () => ({
+    restaurants: [],
+    loading: false
+  }),
   mounted() {
     this.readMenus();
   },
   methods: {
     async readMenus() {
       let rs = this.$store.getters.restaurants;
+      if (rs == null || rs.length == 0) return;
+
+      this.loading = true;
       for (let res of rs) {
         let name = await getDetails(res.id, res.source);
         let menus = await getMenu(res.id, res.source);
@@ -33,6 +42,7 @@ export default {
           menus: menus.sections
         });
       }
+      this.loading = false;
     }
   },
   components: { Restaurant }
