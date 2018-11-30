@@ -3,6 +3,7 @@ import { Restaurant, SEARCH_RESULT_TYPE, DailyMenu } from '../models/DTO'
 
 import request from 'request-promise-native'
 import scrapers from '../scrapers'
+import { LokalBlokScraper } from '../scrapers/LokalBlokScraper';
 
 export var getDetails = (name: string): Restaurant => {
     var result = scrapers.find(x => x.id.indexOf(name) != -1);
@@ -17,7 +18,11 @@ export var getDetails = (name: string): Restaurant => {
 }
 
 export var search = (name: string): Restaurant[] => {
-    var result = scrapers.filter(x => x.id.indexOf(name) != -1).map<Restaurant>(x => (
+    if (name == null) return [];
+
+
+
+    var result = scrapers.filter(searchArray(name)).map<Restaurant>(x => (
         {
             id: x.id,
             name: x.name,
@@ -28,6 +33,17 @@ export var search = (name: string): Restaurant[] => {
     ))
 
     return result;
+}
+
+var searchArray = (name: string) => {
+    return (item: LokalBlokScraper) => {
+        let query = normalize(name);
+        return normalize(item.id).indexOf(query) != -1 || query.indexOf(item.id) != -1;
+    }
+}
+
+var normalize = (text): string => {
+    return text.toUpperCase().replace(/\s+/, '');
 }
 
 export var getAll = (): Restaurant[] => {

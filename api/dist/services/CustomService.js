@@ -25,7 +25,9 @@ exports.getDetails = (name) => {
     };
 };
 exports.search = (name) => {
-    var result = scrapers_1.default.filter(x => x.id.indexOf(name) != -1).map(x => ({
+    if (name == null)
+        return [];
+    var result = scrapers_1.default.filter(searchArray(name)).map(x => ({
         id: x.id,
         name: x.name,
         source: DTO_1.SEARCH_RESULT_TYPE.Custom,
@@ -33,6 +35,15 @@ exports.search = (name) => {
         url: x.url
     }));
     return result;
+};
+var searchArray = (name) => {
+    return (item) => {
+        let query = normalize(name);
+        return normalize(item.id).indexOf(query) != -1 || query.indexOf(item.id) != -1;
+    };
+};
+var normalize = (text) => {
+    return text.toUpperCase().replace(/\s+/, '');
 };
 exports.getAll = () => {
     var result = scrapers_1.default.map(x => ({
