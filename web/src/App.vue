@@ -13,9 +13,6 @@
       <v-toolbar flat class="transparent">
         <v-list>
           <v-list-tile avatar>
-            <!-- <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg" />
-            </v-list-tile-avatar>-->
             <v-list-tile-content>
               <v-list-tile-title>LunchKeeper</v-list-tile-title>
             </v-list-tile-content>

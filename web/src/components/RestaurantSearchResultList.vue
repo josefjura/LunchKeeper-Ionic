@@ -11,7 +11,7 @@
       ></v-progress-circular>
     </div>
     <div v-if="!loading && results.length == 0" class="text-xs-center">
-      <h2>Search for restaurants you want to add to your list.</h2>
+      <h2>Search for restaurants you want to add to your menu list.</h2>
     </div>
   </div>
 </template>
