@@ -38,7 +38,7 @@ export var search = (name: string): Restaurant[] => {
 var searchArray = (name: string) => {
     return (item: LokalBlokScraper) => {
         let query = normalize(name);
-        return normalize(item.id).indexOf(query) != -1 || query.indexOf(item.id) != -1;
+        return normalize(item.id).indexOf(query) != -1 || query.indexOf(normalize(item.id)) != -1;
     }
 }
 
