@@ -1,7 +1,7 @@
 <template>
   <div v-if="!loading">
     <div v-if="restaurants.length > 0">
-      <restaurant v-for="res in restaurants" :key="res.id" :menus="res.menus" :name="res.name"></restaurant>
+      <restaurant v-for="res in restaurants" :name="res.name" :menus="res.menus" :key="res.id" :thumb="res.thumb" />
     </div>
     <div v-else class="text-xs-center">
       <h2>You have currently no restaurants selected. Try adding some.</h2>
@@ -39,6 +39,7 @@ export default {
         this.restaurants.push({
           id: res.id,
           name: name.name,
+          thumb: name.thumb,
           menus: menus.sections
         });
       }
