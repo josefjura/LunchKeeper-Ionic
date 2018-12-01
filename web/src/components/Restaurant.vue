@@ -1,7 +1,7 @@
 <template>
   <div v-if="menus && menus.length > 0">
     <v-card class="mb-3">
-      <v-layout  class="blue lighten-3">
+      <v-layout class="blue lighten-3">
         <v-flex class="shrink">
           <v-avatar class="avatar ma-2">
             <img :src="thumb">
@@ -11,6 +11,9 @@
           <v-card-title>
             <div class="headline">{{name}}</div>
           </v-card-title>
+        </v-flex>
+        <v-flex class="shrink">
+          <v-icon>keyboard_arrow_down</v-icon>
         </v-flex>
       </v-layout>
 

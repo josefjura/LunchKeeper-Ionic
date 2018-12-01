@@ -14,7 +14,7 @@
     "heroku:deploy": "npm run heroku:push && npm run heroku:release"
   },
   "dependencies": {
-    "async-request": "^1.2.0",
+    "axios": "^0.18.0",
     "request-async": "^0.1.0",
     "underscore": "^1.9.1",
     "vue": "^2.5.17",
