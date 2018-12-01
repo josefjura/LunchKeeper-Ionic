@@ -20,7 +20,7 @@
     </v-card>
   </div>
   <div v-else>
-    <v-toolbar class="mb-2" color="pink" dark flat>
+    <v-toolbar class="mb-2" color="pink darken-1" dark flat>
       <v-toolbar-title>Restaurant {{name}} does not have it's daily menu published</v-toolbar-title>
     </v-toolbar>
   </div>

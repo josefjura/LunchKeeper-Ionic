@@ -9,7 +9,7 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <v-navigation-drawer temporary v-model="drawer" light absolute>
+    <v-navigation-drawer temporary v-model="drawer" light fixed>
       <v-toolbar flat class="transparent">
         <v-list>
           <v-list-tile avatar>
@@ -53,7 +53,7 @@ export default {
       { name: "Manage", to: "/manage", icon: "list" },
       { name: "Settings", to: "/settings", icon: "settings" }
     ],
-    drawer: true,
+    drawer: false,
     clipped: false
   })
 };
