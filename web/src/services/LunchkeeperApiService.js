@@ -9,7 +9,7 @@ export async function search(query) {
         return result.data.restaurants;
     }
     catch (err) {
-        console.err(err);
+        console.error(err);
         return [];
     }
 }
@@ -20,7 +20,7 @@ export async function getDetails(id, source) {
         return result.data;
     }
     catch (err) {
-        console.err(err);
+        console.error(err);
         return {};
     }
 }
@@ -31,7 +31,7 @@ export async function getMenu(id, source) {
         return result.data;
     }
     catch (err) {
-        console.err(err);
+        console.error(err);
         return {};
     }
 }
