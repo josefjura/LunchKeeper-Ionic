@@ -12,12 +12,12 @@
             <div class="headline">{{name}}</div>
           </v-card-title>
         </v-flex>
-        <v-flex class="shrink">
-          <v-icon>keyboard_arrow_down</v-icon>
+        <v-flex class="shrink restaurant-expander" @click="expanded = !expanded">
+          <v-icon>{{ expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</v-icon>
         </v-flex>
       </v-layout>
 
-      <v-card-text>
+      <v-card-text v-show="expanded">
         <Menu v-for="(menu, index) in menus" :key="index" :name="menu.name" :dishes="menu.dishes"/>
       </v-card-text>
     </v-card>
@@ -33,6 +33,9 @@
 import Menu from "./Menu";
 
 export default {
+  data: () => ({
+    expanded: false
+  }),
   props: ["name", "menus", "thumb"],
   mounted() {},
   components: { Menu }
@@ -42,6 +45,18 @@ export default {
 <style>
 .align-end {
   align-items: flex-end;
+}
+
+.restaurant-expander {
+  margin-top: auto; 
+  margin-bottom: auto; 
+  margin-right: 10px;
+}
+
+.restaurant-expander i {
+  padding: 10px;
+  background-color: white;
+  border-radius: 80px;
 }
 
 .avatar {
