@@ -17,7 +17,7 @@
         </v-flex>
       </v-layout>
 
-      <v-card-text v-show="expanded">
+      <v-card-text v-show="expanded" class="alternate-base pa-0">
         <Menu v-for="(menu, index) in menus" :key="index" :name="menu.name" :dishes="menu.dishes"/>
       </v-card-text>
     </v-card>
@@ -57,6 +57,7 @@ export default {
   padding: 10px;
   background-color: white;
   border-radius: 80px;
+  user-select: none;
 }
 
 .avatar {
