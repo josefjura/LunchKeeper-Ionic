@@ -1,78 +1,72 @@
-import { RequestHandler, NextFunction, Request, Response } from 'express'
-import request, { RequestPromise } from 'request-promise-native'
+import axios from 'axios'
 import { ZOMATO_URL, ZOMATO_API_KEY } from '../zomato'
-import { SEARCH_RESULT_TYPE, SearchResult, Restaurant, DailyMenu } from '../models/DTO'
+import { SearchResult, Restaurant, DailyMenu, SEARCH_RESULT_TYPE } from '../models/DTO'
+import { Search } from '../models/Zomato';
 
 const headers = { 'Content-Type': 'application/json', 'user-key': ZOMATO_API_KEY };
 
 export var search = async (q: string, city: string): Promise<SearchResult> => {
-    return await request.get(`${ZOMATO_URL}/search`, {
+    const result = await axios.get(`${ZOMATO_URL}/search`, {
         headers,
-        json: true,
-        transform: i => ({
-            restaurants: i.restaurants.map(r => ({
-                id: r.restaurant.id,
-                name: r.restaurant.name,
-                thumb: r.restaurant.thumb,
-                url: r.restaurant.url,
-                source: SEARCH_RESULT_TYPE.Zomato
-            }))
-        }),
-        qs: {
+        params: {
             entity_id: city,
             entity_type: "city",
             q: q
         }
-    }).then((json) => {
-        return json;
-    }, (err) => {
-        throw Error(err);
     });
+
+    const mapped: SearchResult = {
+        restaurants: result.data.restaurants.map((r) => ({
+            id: r.id,
+            name: r.name,
+            thumb: r.thumb,
+            url: r.url,
+            source: SEARCH_RESULT_TYPE.Zomato
+        }))
+    }
+
+    return mapped;
 }
 
 export var getRestaurantDetail = async (id: number): Promise<Restaurant> => {
-    return await request.get(`${ZOMATO_URL}/restaurant`, {
+    const result = await axios.get(`${ZOMATO_URL}/restaurant`, {
         headers,
-        json: true,
-        transform: i => ({
-            id: i.id,
-            name: i.name,
-            thumb: i.thumb,
-            url: i.url,
-            source: SEARCH_RESULT_TYPE.Zomato
-        }),
-        qs: {
+        params: {
             res_id: id
         }
-    }).then((json) => {
-        return json;
-    }, (err) => {
-        throw Error(err);
     });
+
+    const mapped: Restaurant = {
+        id: result.data.id,
+        name: result.data.name,
+        thumb: result.data.thumb,
+        url: result.data.url,
+        source: SEARCH_RESULT_TYPE.Zomato
+    };
+
+    return mapped;
 }
 
-export var getDailyMenu = async (id:number): Promise<DailyMenu> => {
-    return await request.get(`${ZOMATO_URL}/dailymenu`, {
+export var getDailyMenu = async (id: number): Promise<DailyMenu> => {
+    const result = await axios.get(`${ZOMATO_URL}/dailymenu`, {
         headers,
-        json: true,
-        transform: i => ({
-            sections: i.daily_menus.map(r => ({
-                name: r.daily_menu.name,
-                dishes: r.daily_menu.dishes.map(d => ({
-                    name: d.dish.name,
-                    price: d.dish.price
-                }))
-            }
-            ))
-        }),
-        qs: {
+        params: {
             res_id: id
         }
-    }).then((json) => {
-        return json;
-    }, (err) => {
-        throw Error(err);
     });
+    
+    const mapped: DailyMenu = {
+        sections: result.data.daily_menu.map(r => ({
+            name: r.name,
+            dishes: r.dishes.map(d => ({
+                name: d.name,
+                price: d.price
+            }))
+        }
+        ))
+    };
+
+    return mapped;
 }
 
 

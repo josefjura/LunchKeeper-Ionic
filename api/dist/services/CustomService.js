@@ -39,7 +39,7 @@ exports.search = (name) => {
 var searchArray = (name) => {
     return (item) => {
         let query = normalize(name);
-        return normalize(item.id).indexOf(query) != -1 || query.indexOf(item.id) != -1;
+        return normalize(item.id).indexOf(query) != -1 || query.indexOf(normalize(item.id)) != -1;
     };
 };
 var normalize = (text) => {

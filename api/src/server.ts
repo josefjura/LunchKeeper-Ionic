@@ -31,7 +31,6 @@ import cors from 'cors'
 // app.use(cors(options));
 // console.log(`CORS setup with: ${options.origin}`);
 
-
 app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", '*');
     res.setHeader('Access-Control-Allow-Methods', '*');

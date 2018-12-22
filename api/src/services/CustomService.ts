@@ -1,4 +1,3 @@
-import { RequestHandler, NextFunction, Request, Response } from 'express'
 import { Restaurant, SEARCH_RESULT_TYPE, DailyMenu } from '../models/DTO'
 
 import request from 'request-promise-native'
@@ -19,8 +18,6 @@ export var getDetails = (name: string): Restaurant => {
 
 export var search = (name: string): Restaurant[] => {
     if (name == null) return [];
-
-
 
     var result = scrapers.filter(searchArray(name)).map<Restaurant>(x => (
         {
