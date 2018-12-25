@@ -4,7 +4,7 @@
       <v-icon v-if="checked" color="pink">done</v-icon>
     </v-list-tile-action>
     <v-list-tile-avatar class="background-paint">
-      <img :src="thumb">
+      <img :src="thumb || require('../assets/search_default_icon.jpg')">
     </v-list-tile-avatar>
     <v-list-tile-content @click="checkRestaurant(id, source)">
       <v-list-tile-title>{{name}}</v-list-tile-title>
