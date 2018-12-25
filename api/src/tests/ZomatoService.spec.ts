@@ -14,13 +14,13 @@ describe('Zomato service', () => {
             // import and pass your custom axios instance to this method
             moxios.uninstall()
         })
-        it('just call it', async () => {
+        it('positive', async () => {
 
             const restaurant = {
-                id: "16774318",
-                name: "Otto Enoteca & Pizzeria",
-                thumb: "https://b.zmtcdn.com/data/pictures/chains/8/16774318/a54deb9e4dbb79dd7c8091b30c642077_featured_thumb.png",
-                url: "https://www.zomato.com/new-york-city/otto-enoteca-pizzeria-greenwich-village"
+                id: "16507018",
+                name: "Lokal blok",
+                thumb: "https://b.zmtcdn.com/data/res_imagery/16507018_RESTAURANT_0a74ec6f75f590c8604f3364078fdc8c.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A",
+                url: "https://www.zomato.com/praha/lokal-blok-smíchov-praha-5?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
             };
 
             moxios.wait(function () {
@@ -54,13 +54,13 @@ describe('Zomato service', () => {
             // import and pass your custom axios instance to this method
             moxios.uninstall()
         })
-        it('just call it', async () => {
+        it('positive', async () => {
 
             const restaurant = {
-                id: "16774318",
-                name: "Otto Enoteca & Pizzeria",
-                thumb: "https://b.zmtcdn.com/data/pictures/chains/8/16774318/a54deb9e4dbb79dd7c8091b30c642077_featured_thumb.png",
-                url: "https://www.zomato.com/new-york-city/otto-enoteca-pizzeria-greenwich-village"
+                id: "16507018",
+                name: "Lokal blok",
+                url: "https://www.zomato.com/praha/lokal-blok-smíchov-praha-5?utm_source=api_basic_user&utm_medium=api&utm_campaign=v2.1",
+                thumb: "https://b.zmtcdn.com/data/res_imagery/16507018_RESTAURANT_0a74ec6f75f590c8604f3364078fdc8c.jpg?fit=around%7C200%3A200&crop=200%3A200%3B%2A%2C%2A"
             };
 
             moxios.wait(function () {
@@ -93,7 +93,7 @@ describe('Zomato service', () => {
             // import and pass your custom axios instance to this method
             moxios.uninstall()
         })
-        it('just call it', async () => {
+        it('positive', async () => {
 
             const section = {
                 name: "Vinohradský pivovar"

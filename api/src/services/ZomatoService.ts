@@ -14,13 +14,13 @@ export var search = async (q: string, city: string): Promise<SearchResult> => {
             q: q
         }
     });
-
-    const mapped: SearchResult = {
+    
+    const mapped: SearchResult = {        
         restaurants: result.data.restaurants.map((r) => ({
-            id: r.id,
-            name: r.name,
-            thumb: r.thumb,
-            url: r.url,
+            id: r.restaurant.id,
+            name: r.restaurant.name,
+            thumb: r.restaurant.thumb,
+            url: r.restaurant.url,
             source: SEARCH_RESULT_TYPE.Zomato
         }))
     }

@@ -6,7 +6,7 @@ import { DailyMenu } from '../models/DTO';
 export var search = async (name): Promise<SearchResult> => {
     var zomato = await ZomatoService.search(name, "84");
     var custom = CustomService.search(name);
-
+        
     let restaurants = [
         ...zomato.restaurants,
         ...custom
@@ -34,7 +34,7 @@ export var details = async (source: SEARCH_RESULT_TYPE, id: number | string): Pr
             case SEARCH_RESULT_TYPE.Zomato:
                 return await ZomatoService.getRestaurantDetail(id as number);
             case SEARCH_RESULT_TYPE.Custom:
-                return await CustomService.getDetails(id as string);
+                return CustomService.getDetails(id as string);
             default:
                 throw Error("Unknown SOURCE");
         }
