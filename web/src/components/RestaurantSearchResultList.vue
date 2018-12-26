@@ -8,18 +8,24 @@
         :headers="headers"
         :items="results"
         class="elevation-1"
+        select-all
       >
         <template slot="items" slot-scope="props">
-          <td class="source-type">
-            <source-icon :source="props.item.source" ></source-icon>
-          </td>
-          <td class="text-xs-right">{{ props.item.name }}</td>
-          <td class="background-paint">
-            <img :src="props.item.thumb || require('../assets/search_default_icon.jpg')">
-          </td>
+          <tr @click="checkRestaurant(props.item)">
+            <td>
+              <v-checkbox primary hide-details :input-value="props.item.checked"></v-checkbox>
+            </td>
+            <td class="source-type">
+              <source-icon :source="props.item.source"></source-icon>
+            </td>
+            <td class="text-xs-right">{{ props.item.name }}</td>
+            <td class="background-paint">
+              <img :src="props.item.thumb || require('../assets/search_default_icon.jpg')">
+            </td>
+          </tr>
         </template>
         <template slot="no-data">
-          <h2 class="text-xs-center">Search for restaurants you want to add to your menu list.</h2>
+          <h2 class="text-xs-center">Search for restaurants you want to subscribe to.</h2>
         </template>
       </v-data-table>
     </ul>
@@ -31,19 +37,26 @@
 </template>
 
 <script>
-import SourceIcon from './SourceIcon' 
+import SourceIcon from "./SourceIcon";
 
 export default {
   props: ["results", "loading"],
   data: () => ({
     headers: [
+      { sortable: false },
       { text: "Source", sortable: true },
       { text: "Name", sortable: true, align: "left" },
-      { sortable: false, align: "right", width: "50px" }
+      { sortable: false, align: "right" }
     ]
   }),
+  methods: {
+    checkRestaurant(item) {
+      item.checked = !item.checked;
+      var operation = item.checked ? "addRestaurant" : "removeRestaurant";
+      this.$store.commit(operation, { id: item.id, source: item.source });
+    }
+  },
   mounted() {},
-  methods: {},
   components: {
     SourceIcon
   }
@@ -51,10 +64,9 @@ export default {
 </script>
 
 <style>
-
-.source-type img{
-  width:50px;
-  height:50px;
+.source-type img {
+  width: 50px;
+  height: 50px;
   margin-top: 5px;
 }
 

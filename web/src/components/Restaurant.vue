@@ -1,5 +1,5 @@
 <template>
-  <div v-if="menus && menus.length > 0">
+  <div v-if="menus && menus.length > 0 && menus[0].sections && menus[0].sections.length > 0">
     <v-card class="mb-3">
       <v-layout class="blue lighten-3">
         <v-flex class="shrink">
@@ -48,8 +48,8 @@ export default {
 }
 
 .restaurant-expander {
-  margin-top: auto; 
-  margin-bottom: auto; 
+  margin-top: auto;
+  margin-bottom: auto;
   margin-right: 10px;
 }
 
