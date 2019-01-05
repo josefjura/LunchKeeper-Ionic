@@ -3,6 +3,7 @@
     <v-text-field label="Search" 
         solo 
         clearable 
+        autofocus
         single-line 
         @click:append-outer="search" 
         @keyup.enter="search"
