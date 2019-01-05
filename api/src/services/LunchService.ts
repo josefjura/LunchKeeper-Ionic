@@ -6,7 +6,7 @@ import { DailyMenu } from '../models/DTO';
 export var search = async (name): Promise<SearchResult> => {
     var zomato = await ZomatoService.search(name, "84");
     var custom = CustomService.search(name);
-        
+
     let restaurants = [
         ...zomato.restaurants,
         ...custom
