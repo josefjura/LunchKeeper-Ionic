@@ -1,39 +1,34 @@
 <template>
-  <div>
-    <ul v-if="!loading">
+  <v-container fluid grid-list-md>
+    <v-layout row wrap v-if="!loading">
       <!-- <RestaurantSearchResult v-for="result in results" :key="result.id" :name="result.name" :thumb="result.thumb" :id="result.id" :source="result.source" /> -->
-      <v-data-table
-        hide-headers
-        hide-actions
-        :headers="headers"
-        :items="results"
-        class="elevation-1"
-        select-all
-      >
-        <template slot="items" slot-scope="props">
-          <tr @click="checkRestaurant(props.item)">
-            <td>
-              <v-checkbox primary hide-details :input-value="props.item.checked"></v-checkbox>
-            </td>
-            <td class="source-type">
-              <source-icon :source="props.item.source"></source-icon>
-            </td>
-            <td class="text-xs-right">{{ props.item.name }}</td>
-            <td class="background-paint">
-              <img :src="props.item.thumb || require('../assets/search_default_icon.jpg')">
-            </td>
-          </tr>
-        </template>
-        <template slot="no-data">
-          <h2 class="text-xs-center">Search for restaurants you want to subscribe to.</h2>
-        </template>
-      </v-data-table>
-    </ul>
+      <v-flex xs12 sm6 md4 lg3 xl2 v-for="result in results" :key="result.id">
+        <v-card style="height:100%" v-bind:class="{unchecked: !result.checked, checked: result.checked}">
+          <v-img :src="result.thumb  || require('../assets/search_default_icon.jpg')" height="120"></v-img>
+          <source-icon height="70" :source="result.source"></source-icon>
+          <v-card-title primary-title>
+            <div>
+              <h3 class="headline mb-0">{{result.name}}</h3>
+            </div>
+          </v-card-title>
+
+          <v-card-actions class="align-end">
+            <v-btn
+              @click="uncheckRestaurant(result)"
+              v-if="result.checked"
+              flat
+              color="red"
+            >Unsubscribe</v-btn>
+            <v-btn class="sub-button" @click="checkRestaurant(result)" v-else color="green" flat style="opacity:1">Subscribe</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
     <div v-if="loading" class="text-xs-center">
       <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
     </div>
-    <div v-if="!loading && results.length == 0" class="text-xs-center"></div>
-  </div>
+    <div v-if="!loading && results.length == 0" class="text-xs-center">No search results</div>
+  </v-container>
 </template>
 
 <script>
@@ -51,9 +46,15 @@ export default {
   }),
   methods: {
     checkRestaurant(item) {
-      item.checked = !item.checked;
-      var operation = item.checked ? "addRestaurant" : "removeRestaurant";
-      this.$store.commit(operation, { id: item.id, source: item.source });
+      item.checked = true;
+      this.$store.commit("addRestaurant", { id: item.id, source: item.source });
+    },
+    uncheckRestaurant(item) {
+      item.checked = false;
+      this.$store.commit("removeRestaurant", {
+        id: item.id,
+        source: item.source
+      });
     }
   },
   mounted() {},
@@ -80,9 +81,18 @@ export default {
   height: 50px;
   margin-top: 5px;
 }
+
 .background-paint span {
   font-size: 20px;
   margin-right: 10px;
+}
+
+.unchecked {
+  opacity:0.5
+}
+
+.checked{
+
 }
 </style>
 

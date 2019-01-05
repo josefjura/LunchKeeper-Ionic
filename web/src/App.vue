@@ -2,7 +2,7 @@
   <v-app id="app">
     <v-toolbar>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title dark>LunchKeeper</v-toolbar-title>
+      <v-toolbar-title dark>WorkLunch</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn v-for="(item, index) in items" :key="index" flat :to="item.to">{{item.name}}</v-btn>
@@ -14,7 +14,7 @@
         <v-list>
           <v-list-tile avatar>
             <v-list-tile-content>
-              <v-list-tile-title>LunchKeeper</v-list-tile-title>
+              <v-list-tile-title>Worklunch</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>

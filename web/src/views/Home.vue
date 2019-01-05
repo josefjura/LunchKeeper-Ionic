@@ -1,6 +1,7 @@
 <template>
   <div v-if="!loading">
     <div v-if="restaurants.length > 0">
+      <add-restaurant-panel />
       <restaurant v-for="res in restaurants" :name="res.name" :menus="res.menus" :key="res.id" :thumb="res.thumb" />
     </div>
     <div v-else class="text-xs-center">
@@ -18,6 +19,7 @@
 <script>
 import { getMenu, getDetails } from "../services/LunchkeeperApiService";
 import Restaurant from "../components/Restaurant";
+import AddRestaurantPanel from "../components/AddRestaurantPanel";
 
 export default {
   data: () => ({
@@ -46,7 +48,7 @@ export default {
       this.loading = false;
     }
   },
-  components: { Restaurant }
+  components: { Restaurant,AddRestaurantPanel }
 };
 </script>
 
