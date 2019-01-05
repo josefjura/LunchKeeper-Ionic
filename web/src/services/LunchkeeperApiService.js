@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from '../store'
 
-export const API_URL = "https://lunchkeeper-api.herokuapp.com/api"
+export const API_URL = "http://api.worklunch.cz/api"
 
 
 export async function search(query) {
