@@ -1,6 +1,6 @@
 import { Restaurant, SEARCH_RESULT_TYPE, DailyMenu } from '../models/DTO'
 
-import request from 'request-promise-native'
+import axios from 'axios'
 import scrapers from '../scrapers'
 import { LokalBlokScraper } from '../scrapers/LokalBlokScraper';
 
@@ -18,7 +18,6 @@ export var getDetails = (name: string): Restaurant => {
 
 export var search = (name: string): Restaurant[] => {
     if (name == null) return [];
-
     var result = scrapers.filter(searchArray(name)).map<Restaurant>(x => (
         {
             id: x.id,
@@ -63,15 +62,8 @@ export var scrape = async (scraperName: string): Promise<DailyMenu> => {
         return null;
     }
 
-    return await request.get(scraper.url, {
-        json: false,
-        transform: i => (
-            scraper.scrape(i)
-        )
-    }).then((json) => {
-        return json;
-    }, (err) => {
-        throw Error(err);
-    });
+    var response = await axios.get(scraper.url)
+    var scraped = scraper.scrape(response.data);
 
+    return scraped;
 }
