@@ -6,5 +6,5 @@ export interface IScraper {
     name: string;
     thumb: string;
     source: SEARCH_RESULT_TYPE;
-    scrape(input: string) : DailyMenu;
+    scrape(input: string) : Promise<DailyMenu>;
 }

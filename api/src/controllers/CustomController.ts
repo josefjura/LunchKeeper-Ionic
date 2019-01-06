@@ -13,7 +13,6 @@ export var getAll: RequestHandler = async (req: Request, res: Response, next: Ne
 
 export var scrape: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     var scraperName = req.params.name;
-    
     await handleRequest(res, async () => {
         return service.scrape(scraperName);
     })

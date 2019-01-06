@@ -10,7 +10,7 @@ export class LokalBlokScraper implements IScraper {
     name: string = "LokalBlok";
     url: string = 'http://www.lokalblok.cz/jidelni-listek';
 
-    scrape: (html: string) => DailyMenu = (html) => {
+    scrape: (html: string) => Promise<DailyMenu> = (html) => {
         let currentDayMenu = ch.load(html)("#lunch .menu-section").first();
 
         if (!currentDayMenu) return null;
@@ -41,6 +41,6 @@ export class LokalBlokScraper implements IScraper {
         });
 
         toReturn.sections.push(mainSection);
-        return toReturn;
+        return Promise.resolve(toReturn);
     };
 }
