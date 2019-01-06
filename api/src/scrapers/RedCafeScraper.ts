@@ -61,11 +61,12 @@ export class RedCafeScraper implements IScraper {
                 return acc;
             }, []);
 
+            // UGLY AS FUCK - THE WHOLE ALGORITHM IS SHIT
             for (const key in test) {
                 if (test.hasOwnProperty(key)) {
                     const el = test[key];
                     section.dishes.push({
-                        name: el.cz,
+                        name: el.cz || el.en || el.aj,
                         price: el.cena
                     })
                 }
