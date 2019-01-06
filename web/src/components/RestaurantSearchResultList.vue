@@ -90,10 +90,4 @@ export default {
 .unchecked {
   opacity:0.5
 }
-
-.checked{
-
-}
 </style>
-
-
