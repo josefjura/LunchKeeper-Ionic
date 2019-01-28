@@ -13,6 +13,8 @@ export class RedCafeScraper implements IScraper {
         //console.log("HIT");
         try {
             var toReturn: DailyMenu = {
+                name: this.name,
+                thumb: this.thumb,
                 sections: []
             };
             var prom = await (<any>pdf).getDocument(this.url)
@@ -27,7 +29,7 @@ export class RedCafeScraper implements IScraper {
 
             // }
             var values = [];
-            var section: Section = {
+            var section: Section = {                
                 name: "",
                 dishes: []
             };

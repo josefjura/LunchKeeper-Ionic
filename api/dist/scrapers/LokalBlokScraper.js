@@ -19,6 +19,8 @@ class LokalBlokScraper {
             var day = currentDayMenu.find('h2').text();
             var dishes = currentDayMenu.find('p');
             let toReturn = {
+                name: this.name,
+                thumb: this.thumb,
                 sections: []
             };
             let mainSection = {
@@ -37,7 +39,7 @@ class LokalBlokScraper {
                 });
             });
             toReturn.sections.push(mainSection);
-            return toReturn;
+            return Promise.resolve(toReturn);
         };
     }
 }

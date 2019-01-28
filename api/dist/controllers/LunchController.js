@@ -19,15 +19,25 @@ const service = __importStar(require("../services/LunchService"));
 const Helpers_1 = require("./Helpers");
 const headers = { 'Content-Type': 'application/json' };
 exports.search = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
-        return service.search(req.query.q);
-    }));
+    try {
+        yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
+            return service.search(req.query.q);
+        }));
+    }
+    catch (err) {
+        console.error(err);
+    }
     return next();
 });
 exports.dailyMenu = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
-        return service.dailyMenu(parseInt(req.params.type), req.params.id);
-    }));
+    try {
+        yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
+            return service.dailyMenu(parseInt(req.params.type), req.params.id);
+        }));
+    }
+    catch (err) {
+        console.error(err);
+    }
     return next();
 });
 exports.details = (req, res, next) => __awaiter(this, void 0, void 0, function* () {

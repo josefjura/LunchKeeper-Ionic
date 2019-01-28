@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ZOMATO_URL, ZOMATO_API_KEY } from '../zomato'
 import { SearchResult, Restaurant, DailyMenu, SEARCH_RESULT_TYPE } from '../models/DTO'
-import { Search } from '../models/Zomato';
+import * as cacheService from '../services/CacheService'
 
 const headers = { 'Content-Type': 'application/json', 'user-key': ZOMATO_API_KEY };
 
@@ -15,7 +15,6 @@ export var search = async (q: string, city: string): Promise<SearchResult> => {
                 q: q
             }
         });
-
 
         const mapped: SearchResult = {
             restaurants: result.data.restaurants.map((r) => ({
@@ -38,6 +37,9 @@ export var search = async (q: string, city: string): Promise<SearchResult> => {
 
 export var getRestaurantDetail = async (id: number): Promise<Restaurant> => {
     try {
+        let cached = await cacheService.getDetails(id.toString());
+        if (cached) return cached;
+
         const result = await axios.get(`${ZOMATO_URL}/restaurant`, {
             headers,
             params: {
@@ -52,7 +54,7 @@ export var getRestaurantDetail = async (id: number): Promise<Restaurant> => {
             url: result.data.url,
             source: SEARCH_RESULT_TYPE.Zomato
         };
-
+        await cacheService.setDetails(mapped);
         return mapped;
     }
     catch (err) {
@@ -61,8 +63,9 @@ export var getRestaurantDetail = async (id: number): Promise<Restaurant> => {
 }
 
 export var getDailyMenu = async (id: number): Promise<DailyMenu> => {
-
     try {
+        let cached = await cacheService.getMenu(id.toString());
+        if (cached) return cached;
         const result = await axios.get(`${ZOMATO_URL}/dailymenu`, {
             headers,
             params: {
@@ -70,7 +73,11 @@ export var getDailyMenu = async (id: number): Promise<DailyMenu> => {
             }
         });
 
+        const details = await getRestaurantDetail(id);
+        
         const mapped: DailyMenu = {
+            name: details.name,
+            thumb: details.thumb,
             sections: result.data.daily_menus.map(r => ({
                 name: r.daily_menu.name,
                 dishes: r.daily_menu.dishes.map(d => ({
@@ -81,6 +88,7 @@ export var getDailyMenu = async (id: number): Promise<DailyMenu> => {
             ))
         };
 
+        await cacheService.setMenu(id.toString(), mapped);
         return mapped;
     }
     catch (err) {

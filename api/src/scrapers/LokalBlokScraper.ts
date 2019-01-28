@@ -19,6 +19,8 @@ export class LokalBlokScraper implements IScraper {
         var dishes = currentDayMenu.find('p');
 
         let toReturn: DailyMenu = {
+            name: this.name,
+            thumb: this.thumb,
             sections: []
         };
 

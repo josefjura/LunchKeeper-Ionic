@@ -2,6 +2,9 @@ import moxios from 'moxios'
 import { assert, expect } from 'chai'
 import { search, getRestaurantDetail, getDailyMenu } from '../services/ZomatoService'
 import { searchResponse, restaurantResponse, dailyMenuResponse } from './ZomatoResponses'
+import * as cacheService from '../services/CacheService'
+import sinon from 'sinon';
+var sandbox = sinon.createSandbox();
 
 describe('Zomato service', () => {
     describe('search', () => {
@@ -13,9 +16,9 @@ describe('Zomato service', () => {
         afterEach(function () {
             // import and pass your custom axios instance to this method
             moxios.uninstall()
+            
         })
-        it('positive', async () => {
-
+        it('positive', async () => {            
             const restaurant = {
                 id: "16507310",
                 name: "Anděl Plzeňský Restaurant",
@@ -67,11 +70,14 @@ describe('Zomato service', () => {
         beforeEach(function () {
             // import and pass your custom axios instance to this method
             moxios.install()
+            sandbox.stub(cacheService, "getDetails").resolves(null);
+            sandbox.stub(cacheService, "setDetails").returns(null);
         })
 
         afterEach(function () {
             // import and pass your custom axios instance to this method
             moxios.uninstall()
+            sandbox.restore();
         })
         it('positive', async () => {
 
@@ -123,13 +129,19 @@ describe('Zomato service', () => {
         beforeEach(function () {
             // import and pass your custom axios instance to this method
             moxios.install()
+            sandbox.stub(cacheService, "getMenu").resolves(null);
+            sandbox.stub(cacheService, "setMenu").returns(null);
+            sandbox.stub(cacheService, "getDetails").resolves(null);
+            sandbox.stub(cacheService, "setDetails").returns(null);
         })
 
         afterEach(function () {
             // import and pass your custom axios instance to this method
             moxios.uninstall()
+            sandbox.restore();
         })
         it('positive', async () => {
+
 
             const section = {
                 name: "Polévky"

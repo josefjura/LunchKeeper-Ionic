@@ -46,6 +46,7 @@ describe('Lunch service', () => {
         it('positive', async () => {
 
             sandbox.stub(customService, "scrape").resolves({
+                thumb : '', name : 'test',
                 sections: [
                     {
                         name: "CUSTOM", dishes: [
@@ -55,6 +56,7 @@ describe('Lunch service', () => {
                 ]
             });
             sandbox.stub(zomatoService, "getDailyMenu").resolves({
+                thumb : '', name : 'test',
                 sections: [
                     {
                         name: "ZOMATO", dishes: [
@@ -82,6 +84,7 @@ describe('Lunch service', () => {
         it('zomato null', async () => {
 
             sandbox.stub(customService, "scrape").resolves({
+                thumb : '', name : 'test',
                 sections: [
                     {
                         name: "CUSTOM", dishes: [

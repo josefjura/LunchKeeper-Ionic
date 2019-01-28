@@ -11,6 +11,8 @@ export interface Restaurant {
 }
 
 export interface DailyMenu {
+    name: string
+    thumb: string
     sections: Section[];
 }
 

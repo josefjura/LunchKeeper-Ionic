@@ -25,13 +25,13 @@ exports.search = (req, res, next) => __awaiter(this, void 0, void 0, function* (
 });
 exports.getRestaurantDetail = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
-        return service.getRestaurantDetail(req.params.id);
+        return yield service.getRestaurantDetail(req.params.id);
     }));
     return next();
 });
 exports.getDailyMenu = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     yield Helpers_1.handleRequest(res, () => __awaiter(this, void 0, void 0, function* () {
-        return service.getDailyMenu(req.params.id);
+        return yield service.getDailyMenu(req.params.id);
     }));
     return next();
 });
