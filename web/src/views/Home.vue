@@ -1,8 +1,14 @@
 <template>
   <div v-if="!loading">
     <div v-if="restaurants.length > 0">
-      <add-restaurant-panel />
-      <restaurant v-for="res in restaurants" :name="res.name" :menus="res.menus" :key="res.id" :thumb="res.thumb" />
+      <add-restaurant-panel/>
+      <restaurant
+        v-for="res in restaurants"
+        :name="res.name"
+        :menus="res.menus"
+        :key="res.id"
+        :thumb="res.thumb"
+      />
     </div>
     <div v-else class="text-xs-center">
       <h2>You have currently no restaurants selected. Try adding some.</h2>
@@ -17,7 +23,7 @@
 </template>
 
 <script>
-import { getMenu, getDetails } from "../services/LunchkeeperApiService";
+import { getMenu } from "../services/LunchkeeperApiService";
 import Restaurant from "../components/Restaurant";
 import AddRestaurantPanel from "../components/AddRestaurantPanel";
 
@@ -35,20 +41,20 @@ export default {
       if (rs == null || rs.length == 0) return;
 
       this.loading = true;
-      for (let res of rs) {
-        let name = await getDetails(res.id, res.source);
+      rs.forEach(async (res, index) => {
         let menus = await getMenu(res.id, res.source);
-        this.restaurants.push({
+        this.restaurants.splice(index, 0, {
           id: res.id,
-          name: name.name,
-          thumb: name.thumb,
+          name: menus.name,
+          thumb: menus.thumb,
           menus: menus.sections
         });
-      }
-      this.loading = false;
+        //this.restaurants.push();
+        this.loading = false;
+      });
     }
   },
-  components: { Restaurant,AddRestaurantPanel }
+  components: { Restaurant, AddRestaurantPanel }
 };
 </script>
 
